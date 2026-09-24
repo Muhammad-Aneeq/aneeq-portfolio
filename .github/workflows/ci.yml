@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      # Offline: no API key, no network, no spend. Also scans the content files
+      # for mojibake, after a UTF-8-read-as-Windows-1252 bug shipped to a page.
+      - name: Retrieval eval gate + encoding scan
+        run: npm run evals
+
+      - name: Build
+        run: npm run build
+
+      # SPEC §8. The whole argument for shipping WebGL is that it stays out of the
+      # initial payload — this asserts that, not just its size.
+      - name: Bundle budget
+        run: npm run check:bundle
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      # Four passes: dark, light, reduced-motion, and no-JavaScript. The light run
+      # seeds next-themes' localStorage rather than using colorScheme, because the
+      # site is class-based with enableSystem off and colorScheme would silently
+      # audit the dark theme twice.
+      - name: Accessibility and progressive enhancement
+        run: >
+          npx playwright test
+          tests/a11y.spec.ts
+          tests/a11y-light.spec.ts
+          tests/reduced-motion.spec.ts
+          tests/no-js.spec.ts
+
+      # Mobile preset, Moto-G-class throttling. Desktop numbers are not evidence.
+      - name: Lighthouse CI
+        run: npm run check:lighthouse
+
+      - name: Upload Lighthouse report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse
+          path: .lighthouseci
+          if-no-files-found: ignore
+          retention-days: 7

@@ -1,0 +1,19 @@
+{
+  "corpusChunks": 75,
+  "retrieval": {
+    "passed": 22,
+    "total": 22,
+    "rate": 1
+  },
+  "refusal": {
+    "passed": 6,
+    "total": 6,
+    "rate": 1
+  },
+  "injection": {
+    "passed": 7,
+    "total": 7,
+    "rate": 1
+  },
+  "commit": "local"
+}

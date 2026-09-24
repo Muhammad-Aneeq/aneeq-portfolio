@@ -1,0 +1,190 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg:#141821; --surface:#1e2430; --surface-2:#28303e;
+  --border:#363f4f; --border-strong:#4d5a6e; --control-border:#7c899f;
+  --text:#f2f5fa; --muted:#b9c2d0; --faint:#98a3b4;
+  --accent:#a9baff; --ink:#f2f5fa; --on-ink:#141821; --scrim:#141821ed;
+  --shadow-md:0 1px 2px #0000004d, 0 6px 16px #00000047;
+  --shadow-lg:0 1px 2px #0000004d, 0 12px 28px #00000052, 0 28px 60px #00000038;
+  --glow-a:rgb(169 186 255 / .13); --glow-b:rgb(169 186 255 / .06);
+  --edge:rgb(242 245 250 / .09);
+  --preview-mat:#242d40; --preview-mat-alt:#293247;
+  --duration-micro:140ms; --duration-ui:200ms; --duration-base:320ms;
+  --duration-reveal:520ms; --duration-hero:800ms;
+  --pass: oklch(0.82 0.16 175);
+  --pass-dim: oklch(0.82 0.16 175 / 0.16);
+  --gate: oklch(0.82 0.145 78);
+  --gate-dim: oklch(0.82 0.145 78 / 0.16);
+  --halt: oklch(0.76 0.15 22);
+  --halt-dim: oklch(0.76 0.15 22 / 0.12);
+}
+.light {
+  --bg:#eef1f7; --surface:#ffffff; --surface-2:#e2e7f0;
+  --border:#d3dae5; --border-strong:#9aa5b6; --control-border:#79869b;
+  --text:#1a1f29; --muted:#566072; --faint:#555f6d;
+  --accent:#3350cf; --ink:#1a1f29; --on-ink:#fff; --scrim:#eef1f7ed;
+  --shadow-md:0 1px 2px rgb(24 40 80 / .04), 0 6px 16px rgb(24 40 80 / .06);
+  --shadow-lg:0 1px 2px rgb(24 40 80 / .04), 0 12px 28px rgb(24 40 80 / .07), 0 28px 60px rgb(24 40 80 / .05);
+  --glow-a:rgb(51 80 207 / .07); --glow-b:rgb(51 80 207 / .03);
+  --edge:rgb(255 255 255 / .8);
+  --preview-mat:#e2e7f0; --preview-mat-alt:#dce3f1;
+  /*
+    Darker than a naive inversion of the dark values, and the binding constraint is
+    not accent-on-page: it is accent-on-its-own-tint. A state chip puts `--pass` text
+    on a `--pass-dim` background, which lifts the background toward the foreground and
+    eats the contrast. Measured on the three grounds a chip can sit on (page, surface,
+    surface-2); surface-2 is always the worst case. At the previous values the
+    "committed" chip measured 4.47:1 against its own tint and failed the axe sweep on
+    /dev/kitchen-sink. Lowering pass to 0.45 and gate to 0.45 clears AA on all three
+    with margin. Re-measure against surface-2, not against the page, if you touch these.
+  */
+  --pass: oklch(0.45 0.11 175);
+  --pass-dim: oklch(0.45 0.11 175 / 0.12);
+  --gate: oklch(0.45 0.11 78);
+  --gate-dim: oklch(0.45 0.11 78 / 0.12);
+  --halt: oklch(0.48 0.17 22);
+  --halt-dim: oklch(0.48 0.17 22 / 0.12);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+
+  --color-ink: var(--ink);
+  --color-on-ink: var(--on-ink);
+
+
+  --color-pass: var(--pass);
+  --color-pass-dim: var(--pass-dim);
+  --color-gate: var(--gate);
+  --color-gate-dim: var(--gate-dim);
+  --color-halt: var(--halt);
+  --color-halt-dim: var(--halt-dim);
+
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", monospace;
+
+  --text-display: clamp(2.25rem, 1.1rem + 4.4vw, 4.75rem);
+  --text-display--line-height: 0.98;
+  --text-display--letter-spacing: -0.038em;
+
+  --text-h1: clamp(2.125rem, 1.2rem + 3.4vw, 3.875rem);
+  --text-h1--line-height: 1.04;
+  --text-h1--letter-spacing: -0.028em;
+
+  --text-h2: clamp(1.625rem, 1.15rem + 1.9vw, 2.625rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.022em;
+
+  --text-h3: clamp(1.25rem, 1.05rem + 0.85vw, 1.75rem);
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.015em;
+
+  --text-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.3125rem);
+  --text-lead--line-height: 1.6;
+
+  --container-page: 78rem;
+  --container-read: 44rem;
+
+  /*
+    Text measures. See docs/DESIGN-SYSTEM.md §1.
+
+    A page is wide; the text inside it is narrow. Those are separate decisions, and
+    conflating them is what produced twenty-three different prose widths across
+    fourteen routes: a page that wanted readable paragraphs shrank its whole shell,
+    dragging headings, media and grids down with it.
+
+    44rem is the default because it lands near 75 characters at the body size. Wider
+    does not read as more generous, it reads as harder to track back to the line start.
+  */
+  --container-tight: 34rem;
+  --container-wide: 56rem;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --duration-base: 320ms;
+
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+
+    scroll-padding-top: 5rem;
+  }
+
+  html {
+    background-color: var(--bg);
+  }
+
+  body {
+
+    background-color: transparent;
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a,
+  button,
+  [role="button"],
+  label,
+  summary {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: oklch(0.6 0.01 70 / 0.2);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: oklch(0.6 0.01 70 / 0.24);
+    color: var(--text);
+  }
+
+  [data-readout] {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}

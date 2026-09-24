@@ -1,0 +1,96 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Lighthouse CI
+/.lighthouseci/
+
+# Agent skills — fetched content, not source.
+# `skills-lock.json` is the portable record; `npx skills add` rebuilds both trees
+# from it. `.claude/skills/` holds machine-local junctions to `.agents/skills/`,
+# so committing it would break on any other checkout.
+/.agents/
+/.claude/skills/
+
+# One-off Round 2 codemods. They rewrite source files in place by string match and
+# would corrupt the tree if re-run against already-migrated files.
+scripts/round2-*.mjs
+
+# LinkedIn post material: ~350 MB of screen recordings and draft copy. Not part of
+# the site, not referenced from src/, and past GitHub's 100 MB per-file limit.
+/projects/
+
+# ---------------------------------------------------------------------------
+# Review artefacts and working material. Present locally, absent from the repo.
+#
+# These were tracked until the public repo was created, and they are why .git had
+# grown to 865 MB: every capture run re-renders every PNG, so 43 commits each
+# carried a complete fresh copy of the set. None of it is read by the site or the
+# test suite, and all of it regenerates from `npx playwright test screenshots`.
+# ---------------------------------------------------------------------------
+
+# Playwright review captures across four viewports, plus their notes.
+/screenshots/
+
+# Output directory of tests/screenshots.spec.ts. Nothing reads it back.
+/docs/screens/
+
+# Source material for the site copy, not an input to the build.
+/content/
+
+# Working documents from the redesign: briefs, feedback rounds and option
+# explorations. Superseded by the site itself. The docs that describe how the
+# thing works rather than how it was decided stay tracked: SPEC.md,
+# DESIGN-SYSTEM.md and MEDIA.md.
+/docs/FEEDBACK.md
+/docs/FEEDBACK-IMPLEMENTATION.md
+/docs/ROUND-2.md
+/docs/PLAN.md
+/docs/DESIGN-PLAN.md
+/docs/HERO-OPTIONS.md
+/docs/COLOUR-PROPOSAL.md
+/docs/REDESIGN-2026.md
+/docs/RESEARCH.md
