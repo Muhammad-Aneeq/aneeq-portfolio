@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: url("/finance"), priority: 0.9 },
     { url: url("/work"), priority: 0.9 },
     ...caseStudies.map((c) => ({ url: url(`/work/${c.slug}`), priority: 0.9 })),
-    { url: url("/labs"), priority: 0.7 },
+    { url: url("/work/case-studies"), priority: 0.9 },
     ...labs.map((l) => ({ url: url(`/labs/${l.slug}`), priority: 0.6 })),
     { url: url("/demos"), priority: 0.8 },
     { url: url("/demos/case-studies"), priority: 0.7 },

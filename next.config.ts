@@ -40,7 +40,16 @@ const nextConfig: NextConfig = {
    * followed it once would keep being sent to a stale destination.
    */
   async redirects() {
-    return [{ source: "/demos/labs", destination: "/demos", permanent: false }];
+    return [
+      { source: "/demos/labs", destination: "/demos", permanent: false },
+
+      /**
+       * The labs index moved under /work so both collections could share one hero.
+       * `/labs/:slug` is untouched: this matches the index path exactly, so every
+       * lab's own page keeps its URL.
+       */
+      { source: "/labs", destination: "/work", permanent: false },
+    ];
   },
 };
 

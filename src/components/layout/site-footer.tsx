@@ -31,8 +31,10 @@ const FOOTER_GROUPS = [
   {
     label: "the work",
     items: [
-      { href: "/work", label: "Work" },
-      { href: "/labs", label: "Labs" },
+      // /work is the labs view; case studies sit behind the second tab. Naming
+      // both destinations beats two entries that resolve to the same page.
+      { href: "/work", label: "Labs" },
+      { href: "/work/case-studies", label: "Case studies" },
       { href: "/demos", label: "Demos" },
       { href: "/finance", label: "Finance" },
     ],

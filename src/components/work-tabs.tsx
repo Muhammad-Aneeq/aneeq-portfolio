@@ -2,25 +2,28 @@ import { SectionTabs } from "@/components/ui/section-tabs";
 import { caseStudies, labs } from "@/content";
 
 /**
- * `Case studies | Labs` — SPEC §0, §5.3.
+ * `Labs | Case studies` for the work section.
  *
- * Labs used to be a sibling nav item, which said they were a separate concern. They
- * are not: they are the same kind of object at less depth, and a tab says that while
- * giving the nav slot back to something that earns it. Both routes and every deep
- * link survive unchanged.
+ * Labs lead, and /work is the labs view. The two used to be separate pages, /work and
+ * /labs, each with its own heading and intro, so pressing a tab swapped the entire page
+ * rather than the list under it. They now share a hero and differ only in what they
+ * list, which is what makes the control read as a tab.
  *
- * Counts cover the whole collection, not the part with a capture. /labs shows the
- * recorded ones as cards and the rest as rows, so both are on the page either way,
+ * The tab order matches the landing route deliberately: a first tab labelled one thing
+ * above a page showing another is the inconsistency this pairing had before.
+ *
+ * Counts cover the whole collection, not the part with a capture. The labs view shows
+ * the recorded ones as cards and the rest as rows, so both are on the page either way,
  * and a count that only reached the cards disagreed with the tab beside it.
  */
 export function WorkTabs({ active }: { active: "work" | "labs" }) {
   return (
     <SectionTabs
       label="Work sections"
-      activeHref={active === "work" ? "/work" : "/labs"}
+      activeHref={active === "labs" ? "/work" : "/work/case-studies"}
       tabs={[
-        { href: "/work", label: "Case studies", count: caseStudies.length },
-        { href: "/labs", label: "Labs", count: labs.length },
+        { href: "/work", label: "Labs", count: labs.length },
+        { href: "/work/case-studies", label: "Case studies", count: caseStudies.length },
       ]}
     />
   );

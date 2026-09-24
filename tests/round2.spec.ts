@@ -84,7 +84,9 @@ test("contact columns align centrally and validation remains readable", async ({
 });
 
 test("LedgerLab preview shows a real capture, not an empty panel", async ({ page }) => {
-  await page.goto("/work");
+  // /work is the labs view since the two collections started sharing a hero.
+  // LedgerLab is a case study, so its card lives behind the second tab.
+  await page.goto("/work/case-studies");
   const card = page.locator("article").filter({ has: page.getByRole("heading", { name: "LedgerLab", exact: true }) });
   await card.scrollIntoViewIfNeeded();
 

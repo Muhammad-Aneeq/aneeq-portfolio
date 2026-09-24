@@ -45,7 +45,7 @@ const emergent: DomainEntry[] = [
 ].map((id) => ({
   id,
   label: LABELS[id],
-  evidenceHref: "/labs",
+  evidenceHref: "/work",
   projectCount: countIn(id),
   stats: ["The same engineering, applied outside the domain it was proven in"],
 }));

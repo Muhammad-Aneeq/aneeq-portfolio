@@ -119,32 +119,57 @@ test.describe("functional", () => {
     await expect(page.locator("html.light")).toHaveCount(0);
   });
 
-  test("the tabs switch collections, and labs arrive with the same weight", async ({ page }) => {
+  /*
+    Switching tab must change the list and nothing else.
+
+    /work and /labs were two pages sharing a tab strip: different headings, different
+    intros, different layouts. Pressing a tab replaced the page identity, so it read as
+    navigating away rather than switching view. They now share a hero, and this asserts
+    that directly by comparing the heading and lead across both tabs.
+  */
+  test("the work tabs swap the list and keep the page", async ({ page }) => {
     await page.goto("/work");
 
-    // Scoped to the tab strip: the footer also links to /labs, so an unscoped role
-    // query matches two elements and trips strict mode.
+    // Scoped to the tab strip: the footer links to both destinations too, so an
+    // unscoped role query matches more than one element and trips strict mode.
     const tabs = () => page.getByRole("navigation", { name: /work sections/i });
-    await expect(tabs().getByRole("link", { name: /^Case studies/ })).toHaveAttribute(
+
+    // Labs is the landing view, and the tab order matches it.
+    await expect(tabs().getByRole("link", { name: /^Labs/ })).toHaveAttribute(
       "aria-current",
       "page",
     );
+    const labels = await tabs().getByRole("link").allTextContents();
+    expect(labels[0]).toMatch(/^Labs/);
 
-    await tabs().getByRole("link", { name: /^Labs/ }).click();
-    await expect(page).toHaveURL(/\/labs$/);
+    const heading = async () => (await page.locator("h1").first().textContent())?.trim();
+    const lead = async () => (await page.locator("h1 ~ p").first().textContent())?.trim();
+    const onLabs = { h1: await heading(), lead: await lead() };
 
-    /*
-      The reason the tab exists. Labs were previously restated on /work as a bare
-      name-and-tagline list, so the two collections read as different classes of work
-      rather than the same work at different depth. Switching to Labs must land on
-      cards carrying a capture, exactly as the case studies do.
-    */
-    const first = page.locator("main article").first();
-    await expect(first).toBeVisible();
-    expect(await first.locator("img, video").count()).toBeGreaterThan(0);
+    // Labs carry a capture, the same as the case studies do.
+    const firstLab = page.locator("main article").first();
+    await expect(firstLab).toBeVisible();
+    expect(await firstLab.locator("img, video").count()).toBeGreaterThan(0);
 
     await tabs().getByRole("link", { name: /^Case studies/ }).click();
+    await expect(page).toHaveURL(/\/work\/case-studies$/);
+
+    expect(await heading(), "the heading must survive a tab switch").toBe(onLabs.h1);
+    expect(await lead(), "the lead must survive a tab switch").toBe(onLabs.lead);
+
+    await tabs().getByRole("link", { name: /^Labs/ }).click();
     await expect(page).toHaveURL(/\/work$/);
+  });
+
+  test("the old /labs index redirects into the work section", async ({ page }) => {
+    const res = await page.goto("/labs");
+    expect(res?.status()).toBe(200);
+    await expect(page).toHaveURL(/\/work$/);
+
+    // Lab detail pages keep their own URLs; only the index moved.
+    const lab = await page.goto("/labs/revledger");
+    expect(lab?.status()).toBe(200);
+    await expect(page).toHaveURL(/\/labs\/revledger$/);
   });
 
   /*
