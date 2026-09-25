@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { CardLoop } from "@/components/media/card-loop";
-import { BentoCell, BentoGrid, type BentoSpan } from "@/components/ui/bento";
 import { Surface } from "@/components/ui/surface";
 import { TagRow } from "@/components/ui/tag-chip";
 import { capabilityFilters, hasMedia } from "@/content";
@@ -21,18 +20,6 @@ const DOMAIN_LABELS: Record<Domain, string> = {
   devtools: "Devtools",
   other: "Other",
 };
-
-/**
- * The grid is 6 columns. With a handful of cells the declared spans leave holes,
- * so below five the layout is recomputed to divide evenly instead.
- */
-function spanFor(count: number, declared: BentoSpan): BentoSpan {
-  if (count === 1) return 4;
-  if (count === 2) return 3;
-  if (count === 3) return 2;
-  if (count === 4) return 3;
-  return declared;
-}
 
 export function LabsGrid({ labs }: { labs: Lab[] }) {
   const [filter, setFilter] = useState<Capability | null>(null);
@@ -136,18 +123,28 @@ export function LabsGrid({ labs }: { labs: Lab[] }) {
         </div>
       )}
 
-      <BentoGrid className={cn(labs.length > 2 ? "mt-10" : "mt-0")}>
+      {/*
+        A uniform grid, not a bento.
+
+        The bento sized each cell from a per-project `span` and `rows`, which fought the
+        media frame and lost. Measured at 1440px: every card but one rendered its capture
+        between 24 and 47 pixels tall, at aspect ratios from 8:1 to 15.8:1, because the
+        fixed row height overrode the 16/10 box. A screenshot at 15:1 is a decorative
+        stripe, not evidence. The layout also left cards at five different vertical
+        offsets with a single card stranded on one row and 200px of dead space on another.
+
+        Equal columns fix both at once: the media frame governs its own height, and cards
+        in a row stretch to match rather than being cut to a preset. Nine captured labs
+        fill three rows of three exactly.
+      */}
+      <div className={cn("grid gap-6 sm:grid-cols-2 lg:grid-cols-3", labs.length > 2 ? "mt-10" : "mt-0")}>
         {visible.map((lab, i) => (
-          <BentoCell
+          <Surface
             key={lab.slug}
-            span={spanFor(visible.length, lab.span)}
-            rows={visible.length > 4 ? lab.rows : 1}
+            interactive
+            as="article"
+            className="group relative flex h-full flex-col overflow-hidden"
           >
-            <Surface
-              interactive
-              as="article"
-              className="group relative flex h-full flex-col overflow-hidden"
-            >
               {/*
                 `object-[center_38%]` and a taller box, not `object-top`.
 
@@ -211,10 +208,9 @@ export function LabsGrid({ labs }: { labs: Lab[] }) {
 
                 <TagRow className="mt-auto pt-6" tags={lab.stack.slice(0, 3)} />
               </div>
-            </Surface>
-          </BentoCell>
+          </Surface>
         ))}
-      </BentoGrid>
+      </div>
 
       {/*
         Projects without a capture are named rather than deleted. Showing a card with
