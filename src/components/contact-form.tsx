@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { submitContact, type ContactState } from "@/app/contact/actions";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -27,6 +27,24 @@ const initial: ContactState = { status: "idle" };
  */
 export function ContactForm() {
   const [state, action, pending] = useActionState(submitContact, initial);
+  const statusRef = useRef<HTMLParagraphElement>(null);
+
+  /*
+    Bring the reply into view once there is one.
+
+    The live region is the last thing in the form, and on /contact the panel is tall
+    enough that it sat below the fold: pressing Send produced no visible change, so the
+    form read as broken while it was working perfectly. On the home page the same form
+    happened to fit, which is why only one of them looked wrong.
+
+    `block: "center"`, not `"nearest"`. Nearest scrolls the minimum distance, which
+    parked the reply flush against the bottom edge of the viewport: on screen by one
+    pixel and still easy to miss. Centring it puts the answer where the eye already is.
+  */
+  useEffect(() => {
+    if (state.status === "idle") return;
+    statusRef.current?.scrollIntoView({ block: "center" });
+  }, [state]);
 
   return (
     <form action={action} className="mt-10 space-y-6" noValidate>
@@ -98,6 +116,7 @@ export function ContactForm() {
         for the current utterance to finish.
       */}
       <p
+        ref={statusRef}
         role="status"
         aria-live="polite"
         className={cn(

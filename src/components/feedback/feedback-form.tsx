@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { submitFeedback, type FeedbackState } from "@/app/feedback/actions";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -20,6 +20,14 @@ const initial: FeedbackState = { status: "idle" };
  */
 export function FeedbackForm() {
   const [state, action, pending] = useActionState(submitFeedback, initial);
+  const statusRef = useRef<HTMLParagraphElement>(null);
+
+  // Same reason as ContactForm: the reply is the last thing in the form and can
+  // land below the fold, making a working submission look like a dead button.
+  useEffect(() => {
+    if (state.status === "idle") return;
+    statusRef.current?.scrollIntoView({ block: "center" });
+  }, [state]);
 
   return (
     <form action={action} className="mt-8 space-y-6" noValidate>
@@ -87,6 +95,7 @@ export function FeedbackForm() {
         waiting for the current utterance to finish.
       */}
       <p
+        ref={statusRef}
         role="status"
         aria-live="polite"
         className={cn(
