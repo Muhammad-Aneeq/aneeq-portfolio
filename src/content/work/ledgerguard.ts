@@ -16,7 +16,7 @@ export const ledgerguard: CaseStudyInput = {
 
   tags: ["governance", "auditability", "human-in-the-loop", "Azure AI Foundry"],
   stack: ["Python", "LangGraph", "FastAPI", "Postgres", "OpenTelemetry", "Azure Bicep", "React"],
-  links: { repo: "https://github.com/Muhammad-Aneeq/LedgerGuard" },
+  links: { repo: "https://github.com/Muhammad-Aneeq/LedgerGuard", repoPublic: true },
 
   /*
     Loop only. The source is 4m39s and silent; a full walkthrough of it would be one

@@ -56,9 +56,18 @@ export function LinkCluster({
           Repo
         </a>
       ) : (
+        /*
+          "Walkthrough on request", not "Private, walkthrough on request".
+
+          Checked every repo URL in the content against the GitHub API: eleven are
+          public and now linked, and four resolve to nothing at all rather than to a
+          private repository. Calling those private was a specific claim about a
+          repository that does not exist. The offer is the true part, so that is what
+          is left standing.
+        */
         <span className={cn(ITEM, "cursor-default text-faint hover:border-border")}>
           <Lock className="size-4" aria-hidden />
-          Private, walkthrough on request
+          Walkthrough on request
         </span>
       )}
     </div>

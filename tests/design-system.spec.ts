@@ -15,7 +15,7 @@ import { expect, test } from "@playwright/test";
 
 const ROUTES = [
   "/", "/work", "/work/ledgerlens", "/work/closeops", "/labs", "/labs/revledger",
-  "/labs/policyground", "/demos", "/demos/case-studies", "/services", "/about", "/teaching",
+  "/labs/policyground", "/demos", "/demos/case-studies", "/services", "/feedback", "/about", "/teaching",
   "/resume", "/finance",
   // `/ask` is omitted deliberately: it is behind ASK_ENABLED and calls notFound()
   // when the flag is off, so it renders the 404 shell rather than its own layout.

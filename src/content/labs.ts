@@ -19,7 +19,7 @@ export const labs: LabInput[] = [
     order: 1,
     capabilities: ["rag", "governance", "evals"],
     stack: ["Python", "LangGraph", "FastAPI", "pgvector", "React"],
-    links: { repo: "https://github.com/Muhammad-Aneeq/policyground" },
+    links: { repo: "https://github.com/Muhammad-Aneeq/policyground", repoPublic: true },
     walkthrough: {
       src: "/media/policyground/walkthrough.mp4",
       poster: "/media/policyground/walkthrough.jpg",
@@ -75,7 +75,7 @@ export const labs: LabInput[] = [
     order: 2,
     capabilities: ["evals", "agents"],
     stack: ["Python", "OpenTelemetry", "LangSmith", "React"],
-    links: { repo: "https://github.com/Muhammad-Aneeq/trace2evals" },
+    links: { repo: "https://github.com/Muhammad-Aneeq/trace2evals", repoPublic: true },
     walkthrough: {
       src: "/media/trace2evals/walkthrough.mp4",
       poster: "/media/trace2evals/walkthrough.jpg",
@@ -130,7 +130,7 @@ export const labs: LabInput[] = [
     order: 3,
     capabilities: ["security", "evals"],
     stack: ["Python", "Promptfoo", "PyRIT"],
-    links: { repo: "https://github.com/Muhammad-Aneeq/finxpia" },
+    links: { repo: "https://github.com/Muhammad-Aneeq/finxpia", repoPublic: true },
     walkthrough: {
       src: "/media/finxpia/walkthrough.mp4",
       poster: "/media/finxpia/walkthrough.jpg",
@@ -228,7 +228,7 @@ export const labs: LabInput[] = [
     order: 5,
     capabilities: ["agents", "governance", "evals"],
     stack: ["Python", "LangGraph", "FastAPI", "React"],
-    links: { repo: "https://github.com/Muhammad-Aneeq/statementlens" },
+    links: { repo: "https://github.com/Muhammad-Aneeq/statementlens", repoPublic: true },
     walkthrough: {
       src: "/media/statementlens/walkthrough.mp4",
       poster: "/media/statementlens/walkthrough.jpg",
@@ -275,7 +275,7 @@ export const labs: LabInput[] = [
     order: 7,
     capabilities: ["agents", "governance"],
     stack: ["Python", "LangGraph", "FastAPI", "SQLite", "React"],
-    links: { repo: "https://github.com/Muhammad-Aneeq/spendsort" },
+    links: { repo: "https://github.com/Muhammad-Aneeq/spendsort", repoPublic: true },
     walkthrough: {
       src: "/media/spendsort/walkthrough.mp4",
       poster: "/media/spendsort/walkthrough.jpg",
@@ -304,7 +304,7 @@ export const labs: LabInput[] = [
     order: 11,
     capabilities: ["agents", "governance", "evals"],
     stack: ["Python", "FastAPI", "LangGraph", "React", "Vite", "SQLite"],
-    links: { repo: "https://github.com/Muhammad-Aneeq/reportsmith" },
+    links: { repo: "https://github.com/Muhammad-Aneeq/reportsmith", repoPublic: true },
     span: 3,
     rows: 1,
     walkthrough: {

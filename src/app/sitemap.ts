@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: url("/demos"), priority: 0.8 },
     { url: url("/demos/case-studies"), priority: 0.7 },
     { url: url("/services"), priority: 0.8 },
+    { url: url("/feedback"), priority: 0.5 },
     { url: url("/about"), priority: 0.8 },
     { url: url("/teaching"), priority: 0.7 },
     { url: url("/resume"), priority: 0.8 },

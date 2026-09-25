@@ -46,6 +46,7 @@ const FOOTER_GROUPS = [
       { href: "/services", label: "Services" },
       { href: "/teaching", label: "Teaching" },
       { href: "/resume", label: "Resume" },
+      { href: "/feedback", label: "Feedback" },
       { href: "/contact", label: "Contact" },
     ],
   },

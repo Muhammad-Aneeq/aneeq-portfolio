@@ -16,7 +16,7 @@ export const ledgerlens: CaseStudyInput = {
 
   tags: ["agents", "grounding", "human-in-the-loop", "evals"],
   stack: ["Python", "LangGraph", "FastAPI", "SQLite", "React", "Vite", "WebSockets"],
-  links: { repo: "https://github.com/Muhammad-Aneeq/LedgerLens" },
+  links: { repo: "https://github.com/Muhammad-Aneeq/LedgerLens", repoPublic: true },
 
   metrics: [
     {
