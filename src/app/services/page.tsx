@@ -189,8 +189,15 @@ export default function ServicesPage() {
           </Reveal>
         </div>
 
-        <div className="mt-10">
+        <div className="mt-10 flex flex-wrap items-center gap-4">
           <ButtonLink href="/contact">Describe the problem</ButtonLink>
+          {/* Clients arrive here, so this is where the feedback route belongs. */}
+          <Link
+            href="/feedback"
+            className="text-sm text-muted underline decoration-border underline-offset-4 transition-colors duration-200 hover:text-text hover:decoration-text"
+          >
+            Worked together already? Leave feedback
+          </Link>
         </div>
       </section>
     </Container>

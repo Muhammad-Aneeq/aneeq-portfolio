@@ -8,7 +8,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Feedback",
   description:
-    "Feedback on the work: the systems, the writing, or anything on this site. Sent straight to Aneeq Khatri and published by hand, never automatically.",
+    "Client feedback on work delivered by Aneeq Khatri: agent engineering, evaluation, finance automation and training. Rate the work and say how it went.",
 };
 
 export default function FeedbackPage() {
@@ -17,12 +17,13 @@ export default function FeedbackPage() {
       <p className="text-xs text-muted uppercase" data-readout>
         feedback
       </p>
-      <h1 className="mt-5 max-w-wide text-h1">Tell me what you think</h1>
+      <h1 className="mt-5 max-w-wide text-h1">How did the work go?</h1>
 
       {/* The 40–60 word answer block. */}
       <p className="mt-8 max-w-read text-lead text-muted">
-        On the systems, the write-ups, or anything on this site. Criticism is more useful
-        than praise, and a specific objection is the most useful of all. It reaches me by
+        For clients I have delivered work to. Rate it, say what went well and what did
+        not, and I will use it to do the next one better. Criticism is more useful than
+        praise, and a specific objection is the most useful of all. It reaches me by
         email, and nothing appears on this page unless I put it there.
       </p>
 
@@ -31,9 +32,9 @@ export default function FeedbackPage() {
       <FeedbackEmptyNote className="mt-10" />
 
       <section className="mt-12 border-t border-border pt-12">
-        <h2 className="text-h2">Send one</h2>
+        <h2 className="text-h2">Leave feedback</h2>
         <p className="mt-4 max-w-read text-muted">
-          If you would rather write properly, {""}
+          If you would rather write at length, {""}
           <a
             href={`mailto:${site.email}`}
             className="text-text underline decoration-border underline-offset-4 transition-colors hover:decoration-text"
@@ -51,8 +52,9 @@ export default function FeedbackPage() {
       <Reveal>
         <p className="mt-14 max-w-read text-sm leading-relaxed text-faint">
           Published entries are shown with the name of whoever sent them, plus their role
-          and a profile link where they gave one, so a reader can check who said it.
-          Anonymous feedback is still welcome; it simply stays between us.
+          and a profile link where they gave one, so a reader can check who said it. A
+          rating on its own proves nothing. Anonymous feedback is still welcome; it simply
+          stays between us rather than going on the page.
         </p>
       </Reveal>
     </Container>

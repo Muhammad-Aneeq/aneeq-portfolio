@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { Star } from "lucide-react";
+import { Fragment, useActionState, useEffect, useRef } from "react";
 import { submitFeedback, type FeedbackState } from "@/app/feedback/actions";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -65,6 +66,58 @@ export function FeedbackForm() {
           )}
         </Field>
       </div>
+
+      <Field id="service" label="What was the work? (optional)" error={state.fieldErrors?.service}>
+        {(a) => (
+          <input
+            {...a}
+            key={`service-${state.values?.service ?? ""}`}
+            defaultValue={state.values?.service ?? ""}
+            type="text"
+            placeholder="Agent engineering, evaluation, training…"
+            className={inputCls}
+          />
+        )}
+      </Field>
+
+      {/*
+        A fieldset, because five radios are one question. Without the grouping a screen
+        reader announces "1 out of 5, radio" with no idea what is being rated.
+
+        Rendered 5 to 1 and reversed in CSS so the fill can cascade down from the chosen
+        star. The label text is the accessible name; the star is decoration on top.
+      */}
+      <fieldset>
+        <legend className="block text-sm text-muted">How would you rate the work?</legend>
+        <div
+          className="rating-stars mt-2"
+          {...(state.fieldErrors?.rating
+            ? { "aria-describedby": "rating-error", "aria-invalid": true }
+            : {})}
+        >
+          {[5, 4, 3, 2, 1].map((n) => (
+            <Fragment key={n}>
+              <input
+                type="radio"
+                id={`rating-${n}`}
+                name="rating"
+                value={n}
+                required
+                defaultChecked={state.values?.rating === String(n)}
+              />
+              <label htmlFor={`rating-${n}`}>
+                <Star className="size-6" aria-hidden />
+                <span className="sr-only">{n} out of 5</span>
+              </label>
+            </Fragment>
+          ))}
+        </div>
+        {state.fieldErrors?.rating && (
+          <p id="rating-error" className="mt-2 text-sm text-halt">
+            {state.fieldErrors.rating}
+          </p>
+        )}
+      </fieldset>
 
       <Field id="message" label="Your feedback" error={state.fieldErrors?.message}>
         {(a) => (

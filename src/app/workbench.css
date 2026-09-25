@@ -224,6 +224,31 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
 .workbench-detail { min-height:180px; }
 .workbench-detail p { font-size:14px; line-height:1.65; }
 /*
+  Star rating on /feedback.
+
+  Native radios with a CSS-only fill, so the control still shows what is selected
+  with scripting off. React state would have left a no-JS visitor clicking stars
+  that never light up, on a form whose whole job is to be easy to complete.
+
+  The row is reversed in the DOM, 5 through 1, and displayed right-to-left so it
+  reads 1 to 5. That is what lets `input:checked ~ label` fill the chosen star and
+  every star below it: those are the ones that follow it in source order.
+*/
+.rating-stars { display:flex; flex-direction:row-reverse; justify-content:flex-end; gap:2px; }
+.rating-stars input { position:absolute; width:1px; height:1px; opacity:0; }
+.rating-stars label {
+  display:grid; place-items:center; padding:5px; border-radius:7px; cursor:pointer;
+  color:var(--faint); transition:color var(--duration-micro);
+}
+.rating-stars input:checked ~ label { color:var(--accent); }
+.rating-stars input:checked ~ label svg { fill:currentColor; }
+.rating-stars input:focus-visible + label { outline:2px solid var(--text); outline-offset:2px; }
+@media (hover:hover) and (pointer:fine) {
+  .rating-stars label:hover, .rating-stars label:hover ~ label { color:var(--accent); }
+  .rating-stars label:hover svg, .rating-stars label:hover ~ label svg { fill:currentColor; }
+}
+
+/*
   The screenshot slider on /demos gets a visible scrollbar.
 
   A horizontal scroll region with a hidden scrollbar is a region most people never

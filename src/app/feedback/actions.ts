@@ -20,14 +20,25 @@ import { site } from "@/lib/site";
 export type FeedbackState = {
   status: "idle" | "ok" | "error";
   message?: string;
-  fieldErrors?: Partial<Record<"name" | "role" | "message", string>>;
+  fieldErrors?: Partial<Record<"name" | "role" | "service" | "rating" | "message", string>>;
   /** Echoed back on failure so a rejected form does not lose what was written. */
-  values?: { name: string; role: string; message: string };
+  values?: { name: string; role: string; service: string; rating: string; message: string };
 };
 
 const schema = z.object({
   name: z.string().trim().min(2, "Please give a name.").max(120),
   role: z.string().trim().max(160).optional(),
+  service: z.string().trim().max(160).optional(),
+  /*
+    Comes off a radio group, so it arrives as a string and may be absent entirely if
+    nobody picked one. Coerced and bounded here rather than trusted: the form is the
+    convenient path to this action, not the only one.
+  */
+  rating: z.coerce
+    .number({ message: "Please choose a rating." })
+    .int()
+    .min(1, "Please choose a rating.")
+    .max(5, "Please choose a rating."),
   message: z
     .string()
     .trim()
@@ -57,12 +68,14 @@ export async function submitFeedback(
 ): Promise<FeedbackState> {
   // Honeypot. Real people do not fill in a field they cannot see.
   if (formData.get("company")) {
-    return { status: "ok", message: "Thank you. It has reached me." };
+    return { status: "ok", message: "Thank you. That has been sent." };
   }
 
   const raw = {
     name: String(formData.get("name") ?? ""),
     role: String(formData.get("role") ?? ""),
+    service: String(formData.get("service") ?? ""),
+    rating: String(formData.get("rating") ?? ""),
     message: String(formData.get("message") ?? ""),
   };
 
@@ -127,8 +140,12 @@ export async function submitFeedback(
     };
   }
 
-  return {
-    status: "ok",
-    message: "Thank you. It has reached me, and I read every one.",
-  };
+  /*
+    A receipt, not a promise.
+
+    This said "and I read every one", which is a commitment made on someone else's
+    behalf to every future sender. Confirming delivery is the thing the sender
+    actually needs to know, and it stays true no matter how much arrives.
+  */
+  return { status: "ok", message: "Thank you. That has been sent." };
 }

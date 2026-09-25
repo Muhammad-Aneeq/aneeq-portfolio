@@ -77,10 +77,28 @@ test("contact columns align centrally and validation remains readable", async ({
   await expect(page.locator("form [aria-live]")).toContainText("Please check the form");
   positions = await centers();
   expect(Math.abs(positions[0] - positions[1])).toBeLessThan(2);
+  /*
+    Let the resize settle before measuring.
+
+    The assertion is about layout, not timing, and it was reading an intermediate
+    frame: changing the viewport reflows the page and the browser then adjusts the
+    scroll offset, so a boundingBox taken on the next tick can catch the two columns
+    mid-reflow. It only started failing once the form scrolled its reply into view,
+    which changed where the page was sitting when the resize happened, but the race
+    was always there.
+
+    Asserted against the rects in one evaluate, so both are read from the same frame.
+  */
   await page.setViewportSize({ width: 390, height: 844 });
-  const intro = await page.locator(".home-contact-intro").boundingBox();
-  const form = await page.locator("#contact form").boundingBox();
-  expect(form!.y).toBeGreaterThan(intro!.y + intro!.height);
+  await page.evaluate(
+    () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
+  );
+  const stacked = await page.evaluate(() => {
+    const intro = document.querySelector(".home-contact-intro")!.getBoundingClientRect();
+    const form = document.querySelector("#contact form")!.getBoundingClientRect();
+    return { formTop: form.y, introBottom: intro.bottom };
+  });
+  expect(stacked.formTop).toBeGreaterThanOrEqual(stacked.introBottom);
 });
 
 test("LedgerLab preview shows a real capture, not an empty panel", async ({ page }) => {
