@@ -15,7 +15,7 @@ export type Role = {
 };
 
 export const summary =
-  "AI engineer with 4+ years of engineering experience, specialising in agentic AI: designing, building, evaluating and operating production multi-agent systems. I architect agent workflows in Python with LangChain, LangGraph, the OpenAI Agents SDK and MCP. Tool calling, retrieval, orchestration, context engineering, structured outputs. And back every system with evaluation pipelines, guardrails, human-in-the-loop controls and observability, so behaviour is measured rather than assumed. A full-stack TypeScript, React and Node.js background lets me carry an AI feature through the backend and into the product.";
+  "AI engineer with five years of industry experience, specialising in agentic AI: designing, building, evaluating and operating production multi-agent systems. I architect agent workflows in Python with LangChain, LangGraph, the OpenAI Agents SDK and MCP. Tool calling, retrieval, orchestration, context engineering, structured outputs. And back every system with evaluation pipelines, guardrails, human-in-the-loop controls and observability, so behaviour is measured rather than assumed. A full-stack TypeScript, React and Node.js background lets me carry an AI feature through the backend and into the product.";
 
 /** The line the site leads with. It is the thing almost no competing AI engineer can say. */
 /**

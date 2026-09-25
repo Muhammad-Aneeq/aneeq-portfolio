@@ -46,8 +46,8 @@ export const METRICS = {
   },
   experience: {
     id: "experience",
-    value: "4+ yrs",
-    label: "engineering experience",
+    value: "5 yrs",
+    label: "industry experience",
     scope: "the last two building multi-agent and retrieval systems",
     href: "/resume",
   },

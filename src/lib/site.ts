@@ -30,7 +30,7 @@ export const site = {
    * systems", and names finance as the proving ground rather than the scope.
    */
   description:
-    "Aneeq Khatri is an AI engineer who builds and evaluates AI systems: multi-agent orchestration, retrieval pipelines, evaluation harnesses, observability and the guardrails that make them safe to ship. He has more than four years of engineering experience, specialises deepest in finance and accounting, and leads a faculty of around 100 instructors training thousands of engineers.",
+    "Aneeq Khatri is an AI engineer who builds and evaluates AI systems: multi-agent orchestration, retrieval pipelines, evaluation harnesses, observability and the guardrails that make them safe to ship. He has five years of industry experience, specialises deepest in finance and accounting, and leads a faculty of around 100 instructors training thousands of engineers.",
 } as const;
 
 export const links = {

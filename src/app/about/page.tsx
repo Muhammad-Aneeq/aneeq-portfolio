@@ -25,7 +25,7 @@ export default function AboutPage() {
 
       {/* The 40–60 word answer block. */}
       <div className="about-intro"><p className="text-lead text-muted">
-        I am an AI engineer with more than four years of engineering experience. I build and evaluate AI
+        I am an AI engineer with five years of industry experience. I build and evaluate AI
         systems: multi-agent orchestration, retrieval, evaluation and the guardrails that
         make them safe to put in front of real users. My deepest specialisation is finance
         and accounting, because I worked in it before I automated it.
