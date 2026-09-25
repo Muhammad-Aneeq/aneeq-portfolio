@@ -107,7 +107,7 @@ export async function submitFeedback(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: process.env.CONTACT_FROM ?? "portfolio@aneeqkhatri.com",
+        from: process.env.CONTACT_FROM ?? "onboarding@resend.dev", // see contact/actions.ts
         to,
         subject: `Portfolio feedback. ${parsed.data.name}`,
         text:

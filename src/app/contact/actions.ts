@@ -111,7 +111,21 @@ export async function submitContact(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: process.env.CONTACT_FROM ?? "portfolio@aneeqkhatri.com",
+        /*
+          `onboarding@resend.dev` as the default, not a custom address.
+
+          Resend refuses to send from a domain it has not verified, and the previous
+          default named a domain nobody had verified, so the very first submission
+          would have failed with a 403. Resend's shared sender needs no domain at all.
+          Its one restriction happens to be exactly this use case: it delivers only to
+          the address on the Resend account, and a contact form only ever writes to the
+          owner.
+
+          Set CONTACT_FROM once a domain is verified, which is also what a different
+          CONTACT_TO would require: any recipient other than the account owner is a 403
+          on the shared sender.
+        */
+        from: process.env.CONTACT_FROM ?? "onboarding@resend.dev",
         to,
         reply_to: parsed.data.email,
         subject: `Portfolio enquiry. ${parsed.data.name}`,
