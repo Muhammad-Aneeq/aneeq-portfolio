@@ -12,7 +12,8 @@
     "media": "tsx scripts/build-media.ts",
     "check:bundle": "tsx scripts/check-bundle.ts",
     "check:lighthouse": "lhci autorun",
-    "lh:summary": "node scripts/lh-summary.mjs"
+    "lh:summary": "node scripts/lh-summary.mjs",
+    "icons": "tsx scripts/build-icons.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.126.0",
