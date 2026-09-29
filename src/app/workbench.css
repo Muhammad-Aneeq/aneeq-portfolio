@@ -6,14 +6,18 @@
 @media (min-width:640px) { .portfolio-home { padding:0 2rem; } }
 .portfolio-hero { display:grid; grid-template-columns:1.15fr 1fr; align-items:center; gap:64px; padding:88px 0 70px; }
 .intro-line { display:flex; align-items:center; gap:9px; font-size:13px; font-weight:500; }
-.intro-role { color:var(--muted); font-weight:400; }
 .availability-dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--accent); flex-shrink:0; }
 .hero-intro h1 { font-size:var(--text-display); line-height:var(--text-display--line-height); letter-spacing:var(--text-display--letter-spacing); margin:27px 0 24px; font-weight:600; }
 .hero-description { max-width:var(--container-tight); color:var(--muted); font-size:16px; line-height:1.8; }
 .hero-actions { display:flex; align-items:center; flex-wrap:wrap; gap:26px; margin-top:30px; }
 .portfolio-button { display:inline-flex; align-items:center; justify-content:center; gap:18px; background:var(--ink); color:var(--on-ink); padding:15px 21px; border-radius:8px; font-size:13px; font-weight:500; min-height:48px; }
+/*
+  One primary action per screen, and it is the only button that wears the accent.
+  Before, the hero button and the Contact button in the bar were both solid ink, so
+  the first screen had two primaries and the accent coloured nothing but links.
+*/
+.portfolio-button-primary { background:var(--accent); color:var(--on-accent); font-weight:600; }
 .portfolio-text-link { display:inline-flex; align-items:center; gap:9px; font-size:13px; font-weight:500; min-height:44px; }
-.hero-location { color:var(--faint); font-size:12px; margin-top:27px; }
 .workbench { background:var(--surface); border:1px solid var(--border); border-radius:18px; overflow:hidden; box-shadow:inset 0 1px var(--edge), var(--shadow-lg); }
 .workbench-top { display:flex; gap:9px; align-items:center; padding:19px 22px; font-size:12px; border-bottom:1px solid var(--border); }
 .workbench-symbol { color:var(--accent); font-size:25px; line-height:1; }
@@ -89,7 +93,9 @@
 /* A portrait, not the old "ak" monogram. Fixed square so the circle can never go oval
    while the image decodes, and object-fit so the crop is never squashed. */
 .brand-mark { width:32px; height:32px; flex-shrink:0; border-radius:50%; object-fit:cover; border:1px solid var(--border-strong); }
-.site-contact { align-items:center; gap:8px; border-radius:6px; background:var(--ink); color:var(--on-ink); padding:9px 13px; font-size:12px; }
+/* Quiet on purpose: the hero owns the one primary action, the bar only offers a route. */
+.site-contact { align-items:center; gap:8px; border-radius:6px; border:1px solid var(--border-strong); color:var(--text); padding:8px 13px; font-size:12px; transition:border-color var(--duration-micro), background-color var(--duration-micro); }
+@media (hover:hover) and (pointer:fine) { .site-contact:hover { border-color:var(--text); background:var(--surface); } }
 @media (hover:hover) and (pointer:fine) {
   .project-preview:hover .project-shot { transform:scale(1.025); }
   .portfolio-text-link:hover, .workbench-link:hover { color:var(--accent); }
@@ -125,10 +131,7 @@
   .project-preview .project-shot { transition:none; transform:none; }
 }
 
-.hero-capabilities { display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:20px; font-size:12px; color:var(--text); }
-.hero-capabilities li + li::before { content:"/"; color:var(--faint); margin-right:16px; }
 .hero-finance-link { margin-top:18px; color:var(--accent); }
-.hero-location { margin-top:12px; }
 .career-proof a { display:block; }
 .home-answer { max-width:var(--container-read); margin:64px 0 0; font-size:16px; line-height:1.8; color:var(--muted); }
 .home-contact { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; }
@@ -192,9 +195,6 @@
   background:radial-gradient(42% 46% at 58% 34%,var(--glow-a),transparent 74%),radial-gradient(36% 42% at 28% 74%,var(--glow-b),transparent 70%);
   -webkit-mask-image:radial-gradient(78% 78% at 55% 42%,#000 38%,transparent 100%);
   mask-image:radial-gradient(78% 78% at 55% 42%,#000 38%,transparent 100%); }
-.hero-domain { margin-top:23px; padding-left:18px; border-left:2px solid var(--accent); max-width:var(--container-tight); }
-.hero-domain p { font-size:14px; color:var(--muted); line-height:1.75; }
-.hero-domain .hero-finance-link { margin-top:3px; }
 .portfolio-button-secondary { background:var(--surface); color:var(--accent); border:1px solid var(--border-strong); box-shadow:var(--shadow-md); }
 .portfolio-button, .site-contact { transition:transform var(--duration-micro) var(--ease-out-expo), background-color var(--duration-micro), box-shadow var(--duration-micro); }
 .portfolio-button:active, .site-contact:active { transform:translateY(1px); }
@@ -290,11 +290,10 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
   /* The 8px rule under a metric grows and takes the ink colour. Tailwind already
      supplies the colour via `group-hover`; this adds the movement and the easing. */
   .metric-link:hover .h-px { width:2.5rem; }
-  .project-preview:hover { transform:translateY(-3px); border-color:var(--accent); box-shadow:var(--shadow-lg); }
-  .interactive-surface:hover { transform:translateY(-2px); border-color:var(--accent); box-shadow:var(--shadow-lg); }
+  .project-preview:hover { transform:translateY(-3px); border-color:var(--border-strong); box-shadow:var(--shadow-lg); }
+  .interactive-surface:hover { transform:translateY(-2px); border-color:var(--border-strong); box-shadow:var(--shadow-lg); }
   .portfolio-text-link:hover, .workbench-link:hover { text-decoration-color:currentColor; }
 }
-@media (max-width:767px) { .hero-domain { max-width:100%; } }
 /* Entrances never dim text. View timelines use distance, not a millisecond delay. */
 @media (prefers-reduced-motion:no-preference) {
   .workbench { animation:workbench-enter var(--duration-hero) var(--ease-out-expo) both; }

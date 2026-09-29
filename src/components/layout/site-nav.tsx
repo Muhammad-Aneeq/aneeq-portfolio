@@ -49,10 +49,12 @@ export function SiteNav() {
             priority
             className="brand-mark"
           />
+          {/*
+            The name alone. A mono "ai engineer" used to sit beside it, which broke the
+            site's own rule (mono is for code and figures, and a job title is neither)
+            and repeated the hero eyebrow a hundred pixels below it.
+          */}
           {site.name}
-          <span className="ml-2 hidden text-muted xl:inline" data-readout>
-            {site.role.toLowerCase()}
-          </span>
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-1 md:flex">

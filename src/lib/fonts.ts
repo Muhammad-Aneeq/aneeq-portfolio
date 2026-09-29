@@ -1,7 +1,7 @@
-import { Bricolage_Grotesque, Inter, JetBrains_Mono } from "next/font/google";
+import { Bricolage_Grotesque, IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
 
 /**
- * All three are variable fonts, self-hosted by next/font at build time (no
+ * Self-hosted by next/font at build time (no
  * requests to Google at runtime). Font preloading with `display: swap` is one of
  * the four highest-impact LCP fixes. See SPEC §3.3.
  *
@@ -32,11 +32,22 @@ export const bricolage = Bricolage_Grotesque({
   weight: ["600", "700"],
 });
 
-/** Body. */
-export const inter = Inter({
+/**
+ * Body.
+ *
+ * IBM Plex Sans, replacing Inter. The display face gave the site its character, but
+ * the case studies are long-form and the body face is what most of the reading feels
+ * like; Inter is the default of half the web and made that reading generic. Plex keeps
+ * the engineering register with more personality in the letterforms.
+ *
+ * Not a variable font on Google, so the weights are named: exactly the three the site
+ * sets (400 body, 500 medium, 600 semibold). A fourth is weight nobody renders.
+ */
+export const plex = IBM_Plex_Sans({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-body",
+  weight: ["400", "500", "600"],
 });
 
 /** Instrument readouts: metrics, trace labels, code. A semantic choice, not a stylistic one. */
@@ -47,4 +58,4 @@ export const jetbrains = JetBrains_Mono({
   weight: ["400", "500"],
 });
 
-export const fontVariables = `${bricolage.variable} ${inter.variable} ${jetbrains.variable}`;
+export const fontVariables = `${bricolage.variable} ${plex.variable} ${jetbrains.variable}`;

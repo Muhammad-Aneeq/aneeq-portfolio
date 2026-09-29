@@ -5,7 +5,7 @@
   --bg:#141821; --surface:#1e2430; --surface-2:#28303e;
   --border:#363f4f; --border-strong:#4d5a6e; --control-border:#7c899f;
   --text:#f2f5fa; --muted:#b9c2d0; --faint:#98a3b4;
-  --accent:#a9baff; --ink:#f2f5fa; --on-ink:#141821; --scrim:#141821ed;
+  --accent:#a9baff; --on-accent:#141821; --ink:#f2f5fa; --on-ink:#141821; --scrim:#141821ed;
   --shadow-md:0 1px 2px #0000004d, 0 6px 16px #00000047;
   --shadow-lg:0 1px 2px #0000004d, 0 12px 28px #00000052, 0 28px 60px #00000038;
   --glow-a:rgb(169 186 255 / .13); --glow-b:rgb(169 186 255 / .06);
@@ -23,8 +23,8 @@
 .light {
   --bg:#eef1f7; --surface:#ffffff; --surface-2:#e2e7f0;
   --border:#d3dae5; --border-strong:#9aa5b6; --control-border:#79869b;
-  --text:#1a1f29; --muted:#566072; --faint:#555f6d;
-  --accent:#3350cf; --ink:#1a1f29; --on-ink:#fff; --scrim:#eef1f7ed;
+  --text:#1a1f29; --muted:#4a5263; --faint:#5c6777;
+  --accent:#3350cf; --on-accent:#fff; --ink:#1a1f29; --on-ink:#fff; --scrim:#eef1f7ed;
   --shadow-md:0 1px 2px rgb(24 40 80 / .04), 0 6px 16px rgb(24 40 80 / .06);
   --shadow-lg:0 1px 2px rgb(24 40 80 / .04), 0 12px 28px rgb(24 40 80 / .07), 0 28px 60px rgb(24 40 80 / .05);
   --glow-a:rgb(51 80 207 / .07); --glow-b:rgb(51 80 207 / .03);
@@ -71,7 +71,7 @@
   --color-halt-dim: var(--halt-dim);
 
   --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", monospace;
 
   --text-display: clamp(2.25rem, 1.1rem + 4.4vw, 4.75rem);

@@ -9,32 +9,54 @@ import { cn } from "@/lib/utils";
 type Loop = z.infer<typeof loopSchema>;
 
 /**
- * Muted micro-loop for a card.
+ * Muted micro-loop for a card: the poster by default, the loop on intent.
  *
- * `preload="none"` and play gated on intersection: a card that never scrolls into
- * view never fetches its clip. Under reduced motion it stays a poster image and no
- * video element is created at all.
+ * It used to play whenever a quarter of the card was on screen, so the work grid
+ * could run nine videos at once. Movement everywhere means nothing draws the eye,
+ * and it spent data on clips nobody had asked to watch. Now the poster (taken at the
+ * loop's first frame, so the switch is seamless) stays put until the card is hovered
+ * or keyboard-focused, and the loop stops and rewinds when that ends.
+ *
+ * Touch devices have no hover, so they keep the poster; the project page plays the
+ * full walkthrough. `preload="none"` means a clip is fetched only when first played.
+ * Under reduced motion, or on a device that cannot afford the decode, no video
+ * element is created at all.
  */
 export function CardLoop({ loop, className }: { loop: Loop; className?: string }) {
   const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const canHover = useMediaQuery("(hover: hover) and (pointer: fine)");
   const capable = useDeviceCapable();
   const ref = useRef<HTMLVideoElement>(null);
 
+  // Keyed on the media queries: they can resolve after the first render, and a
+  // mount-only effect would then never find the video it is meant to wire up.
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || !canHover) return;
 
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) void el.play().catch(() => {});
-        else el.pause();
-      },
-      { threshold: 0.25 },
-    );
+    // The whole card is the target, not the frame: people hover the title too.
+    const card = el.closest("a, article") ?? el;
+    const play = () => void el.play().catch(() => {});
+    const stop = () => {
+      el.pause();
+      el.currentTime = 0;
+    };
+    const blur = (e: Event) => {
+      const next = (e as FocusEvent).relatedTarget;
+      if (!(next instanceof Node) || !card.contains(next)) stop();
+    };
 
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+    card.addEventListener("pointerenter", play);
+    card.addEventListener("pointerleave", stop);
+    card.addEventListener("focusin", play);
+    card.addEventListener("focusout", blur);
+    return () => {
+      card.removeEventListener("pointerenter", play);
+      card.removeEventListener("pointerleave", stop);
+      card.removeEventListener("focusin", play);
+      card.removeEventListener("focusout", blur);
+    };
+  }, [canHover, reduced, capable]);
 
   if (reduced || !capable) {
     return (

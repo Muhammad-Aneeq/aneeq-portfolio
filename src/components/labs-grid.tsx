@@ -159,7 +159,14 @@ export function LabsGrid({ labs }: { labs: Lab[] }) {
                 preference a case study card uses, so the two collections are showing
                 evidence in the same language rather than one moving and one static.
               */}
-              <div className="aspect-[16/10] overflow-hidden border-b border-border bg-surface-2">
+              {/*
+                One mat for every capture. The labs range from near-white interfaces to
+                near-black ones, and set edge to edge they fought across the grid. An
+                inset frame on surface-2, the same treatment the case study cards use,
+                makes nine unrelated screenshots read as one set.
+              */}
+              <div className="aspect-[16/10] border-b border-border bg-surface-2 p-2">
+              <div className="h-full overflow-hidden rounded-md ring-1 ring-border">
                 {lab.loop ? (
                   <CardLoop loop={lab.loop} className="object-[center_38%]" />
                 ) : lab.walkthrough && !lab.shots[0] ? (
@@ -189,6 +196,7 @@ export function LabsGrid({ labs }: { labs: Lab[] }) {
                     className="h-full w-full object-cover object-[center_38%]"
                   />
                 )}
+              </div>
               </div>
 
               <div className="flex flex-1 flex-col p-6">

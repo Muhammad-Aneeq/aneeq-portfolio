@@ -276,7 +276,7 @@ default.
 | Role | Face | Notes |
 |---|---|---|
 | Display | **Bricolage Grotesque Variable** | Optical-size + width axes actually animated on the hero. Distinctive, editorial, free. |
-| Body | **Inter Variable** | Neutral, superb at small sizes. |
+| Body | **IBM Plex Sans** (400, 500, 600) | Replaced Inter after the Sept 2026 design review: the body face sets the tone for long-form case studies, and Inter read as generic. Lighter too: 110.2 KB preloaded against 118.2 before. |
 | Mono | **JetBrains Mono Variable** | All instrument readouts, metrics, code, trace labels. |
 
 Self-hosted via `next/font/local`, `display: swap`, preloaded (a top-4 LCP fix per research).
