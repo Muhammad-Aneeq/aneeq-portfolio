@@ -323,10 +323,5 @@ export const education: Credential[] = [
     period: "Aug 2024 to Jan 2025",
   },
   { title: "MERN Stack Development", org: "Jawan Pakistan", period: "Apr 2022 to Jan 2023" },
-  {
-    title: "Microsoft AI-103 · Azure AI Engineer",
-    org: "In progress",
-    period: "Current",
-  },
 ];
 
