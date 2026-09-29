@@ -6,17 +6,13 @@
 @media (min-width:640px) { .portfolio-home { padding:0 2rem; } }
 .portfolio-hero { display:grid; grid-template-columns:1.15fr 1fr; align-items:center; gap:64px; padding:88px 0 70px; }
 .intro-line { display:flex; align-items:center; gap:9px; font-size:13px; font-weight:500; }
+.intro-role { color:var(--muted); font-weight:400; }
 .availability-dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--accent); flex-shrink:0; }
 .hero-intro h1 { font-size:var(--text-display); line-height:var(--text-display--line-height); letter-spacing:var(--text-display--letter-spacing); margin:27px 0 24px; font-weight:600; }
 .hero-description { max-width:var(--container-tight); color:var(--muted); font-size:16px; line-height:1.8; }
 .hero-actions { display:flex; align-items:center; flex-wrap:wrap; gap:26px; margin-top:30px; }
+.hero-location { color:var(--faint); font-size:12px; margin-top:27px; }
 .portfolio-button { display:inline-flex; align-items:center; justify-content:center; gap:18px; background:var(--ink); color:var(--on-ink); padding:15px 21px; border-radius:8px; font-size:13px; font-weight:500; min-height:48px; }
-/*
-  One primary action per screen, and it is the only button that wears the accent.
-  Before, the hero button and the Contact button in the bar were both solid ink, so
-  the first screen had two primaries and the accent coloured nothing but links.
-*/
-.portfolio-button-primary { background:var(--accent); color:var(--on-accent); font-weight:600; }
 .portfolio-text-link { display:inline-flex; align-items:center; gap:9px; font-size:13px; font-weight:500; min-height:44px; }
 .workbench { background:var(--surface); border:1px solid var(--border); border-radius:18px; overflow:hidden; box-shadow:inset 0 1px var(--edge), var(--shadow-lg); }
 .workbench-top { display:flex; gap:9px; align-items:center; padding:19px 22px; font-size:12px; border-bottom:1px solid var(--border); }
@@ -294,6 +290,13 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
   .interactive-surface:hover { transform:translateY(-2px); border-color:var(--border-strong); box-shadow:var(--shadow-lg); }
   .portfolio-text-link:hover, .workbench-link:hover { text-decoration-color:currentColor; }
 }
+.hero-capabilities { display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:20px; font-size:12px; color:var(--text); }
+.hero-capabilities li + li::before { content:"/"; color:var(--faint); margin-right:16px; }
+.hero-location { margin-top:12px; }
+.hero-domain { margin-top:23px; padding-left:18px; border-left:2px solid var(--accent); max-width:var(--container-tight); }
+.hero-domain p { font-size:14px; color:var(--muted); line-height:1.75; }
+.hero-domain .hero-finance-link { margin-top:3px; }
+@media (max-width:767px) { .hero-domain { max-width:100%; } }
 /* Entrances never dim text. View timelines use distance, not a millisecond delay. */
 @media (prefers-reduced-motion:no-preference) {
   .workbench { animation:workbench-enter var(--duration-hero) var(--ease-out-expo) both; }

@@ -13,24 +13,15 @@ export default function HomePage() {
   return (
     <div className="portfolio-home">
       <section className="portfolio-hero" aria-labelledby="hero-title">
-        {/*
-          Four tiers under the headline, not seven: eyebrow, headline, lead, actions.
-
-          The hero used to stack a name line, the headline, a lead, a row of topic
-          words, a bordered finance callout, two actions and a location footnote. Every
-          tier competed with the one above it, and the eyebrow repeated the name and
-          role the navigation already shows 100px higher. The finance point now lives
-          in the lead, the topics are what the metric strip and the work below are for,
-          and the eyebrow says what the navigation does not: where, and availability.
-        */}
         <div className="hero-intro">
-          <p className="intro-line"><span className="availability-dot" aria-hidden="true" /> {site.location} · remote worldwide · open to roles</p>
+          <p className="intro-line"><span className="availability-dot" aria-hidden="true" /> {site.name} <span className="intro-role">/ AI Engineer</span></p>
           <h1 id="hero-title">AI systems.<br />Built to hold up<br />in the real world.</h1>
-          <p className="hero-description">I build agent systems, retrieval pipelines, and evaluation tools that make model behavior easier to inspect. Proven first in finance and accounting, where I worked before I automated it.</p>
-          <div className="hero-actions">
-            <a href="#selected-work" className="portfolio-button portfolio-button-primary">Explore my work <ArrowDown size={17} aria-hidden /></a>
-            <Link href="/finance" className="portfolio-text-link">AI for finance &amp; accounting <ArrowUpRight size={17} aria-hidden /></Link>
-          </div>
+          <p className="hero-description">I build agent systems, retrieval pipelines, and evaluation tools that make model behavior easier to inspect.</p>
+          <ul className="hero-capabilities" aria-label="What I build">{["Agents", "Retrieval", "Evaluation", "Governance"].map(item => <li key={item}>{item}</li>)}</ul>
+          <div className="hero-domain"><p>My deepest expertise is finance and accounting. I worked in accounting before I started automating it.</p><Link href="/finance" className="hero-finance-link portfolio-text-link">AI for finance &amp; accounting <ArrowUpRight size={17} aria-hidden /></Link></div>
+          <div className="hero-actions"><a href="#selected-work" className="portfolio-button">Explore my work <ArrowDown size={17} aria-hidden /></a><Link href="/contact" className="portfolio-text-link">Let’s talk <ArrowUpRight size={17} aria-hidden /></Link></div>
+
+          <p className="hero-location">Based in {site.location}. Building for teams everywhere.</p>
         </div>
         <AgentWorkbench />
       </section>
