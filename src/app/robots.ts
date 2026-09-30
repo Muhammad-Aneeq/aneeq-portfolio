@@ -7,9 +7,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        // The kitchen sink is an internal review surface, and the agent endpoint
-        // is not a document.
-        disallow: ["/dev/", "/api/"],
+        // The kitchen sink is an internal review surface, the API routes are not
+        // documents, the admin area is private, and a personal feedback link carries
+        // a secret in its URL.
+        disallow: ["/dev/", "/api/", "/admin", "/feedback/"],
       },
     ],
     sitemap: `${site.url}/sitemap.xml`,

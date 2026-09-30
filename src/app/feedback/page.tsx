@@ -1,62 +1,55 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Container } from "@/components/layout/container";
-import { FeedbackForm } from "@/components/feedback/feedback-form";
-import { FeedbackEmptyNote, FeedbackWall } from "@/components/feedback/feedback-wall";
-import { Reveal } from "@/components/motion/reveal";
-import { site } from "@/lib/site";
+import { FeedbackWall } from "@/components/feedback/feedback-wall";
 
 export const metadata: Metadata = {
   title: "Feedback",
   description:
-    "Client feedback on work delivered by Aneeq Khatri: agent engineering, evaluation, finance automation and training. Rate the work and say how it went.",
+    "Feedback and recommendations from clients, former employers and colleagues of Aneeq Khatri, each sent through a personal link and published with permission.",
 };
 
+/**
+ * The public face of feedback: what has been approved, and how it got here.
+ *
+ * There is no open form on this page any more. Feedback arrives through personal
+ * invite links, one per person, which is what lets every entry here honestly claim to
+ * come from someone who worked with me. An open form cannot make that claim, and
+ * would have to be moderated for spam as well as for content.
+ */
 export default function FeedbackPage() {
   return (
     <Container className="inner-page py-20">
       <p className="text-xs text-muted uppercase" data-readout>
         feedback
       </p>
-      <h1 className="mt-5 max-w-wide text-h1">How did the work go?</h1>
+      <h1 className="mt-5 max-w-wide text-h1">From people I have worked with</h1>
 
       {/* The 40–60 word answer block. */}
       <p className="mt-8 max-w-read text-lead text-muted">
-        For clients I have delivered work to. Rate it, say what went well and what did
-        not, and I will use it to do the next one better. Criticism is more useful than
-        praise, and a specific objection is the most useful of all. It reaches me by
-        email, and nothing appears on this page unless I put it there.
+        Clients, former employers and colleagues. Each one was sent a personal link, wrote
+        in their own words, and agreed to be named here. Every entry is approved before it
+        appears, and nothing is changed beyond trimming for length.
       </p>
 
-      {/* Renders nothing until a real entry exists; the note takes its place. */}
-      <FeedbackWall className="mt-16" />
-      <FeedbackEmptyNote className="mt-10" />
+      <FeedbackWall className="mt-14" emptyNote heading={false} />
 
-      <section className="mt-12 border-t border-border pt-12">
-        <h2 className="text-h2">Leave feedback</h2>
+      <section className="mt-16 border-t border-border pt-10">
+        <h2 className="text-xs text-faint uppercase" data-readout>
+          worked together?
+        </h2>
         <p className="mt-4 max-w-read text-muted">
-          If you would rather write at length, {""}
-          <a
-            href={`mailto:${site.email}`}
+          If we have worked together and you would like to leave feedback, I will send you
+          a personal link.{" "}
+          <Link
+            href="/contact"
             className="text-text underline decoration-border underline-offset-4 transition-colors hover:decoration-text"
           >
-            email me directly
-          </a>
-          . Either reaches the same place.
+            Ask for one here
+          </Link>
+          .
         </p>
-
-        <div className="max-w-wide">
-          <FeedbackForm />
-        </div>
       </section>
-
-      <Reveal>
-        <p className="mt-14 max-w-read text-sm leading-relaxed text-faint">
-          Published entries are shown with the name of whoever sent them, plus their role
-          and a profile link where they gave one, so a reader can check who said it. A
-          rating on its own proves nothing. Anonymous feedback is still welcome; it simply
-          stays between us rather than going on the page.
-        </p>
-      </Reveal>
     </Container>
   );
 }

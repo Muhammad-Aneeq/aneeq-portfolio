@@ -196,7 +196,7 @@ export default function ServicesPage() {
             href="/feedback"
             className="text-sm text-muted underline decoration-border underline-offset-4 transition-colors duration-200 hover:text-text hover:decoration-text"
           >
-            Worked together already? Leave feedback
+            Read what people I have worked with say
           </Link>
         </div>
       </section>

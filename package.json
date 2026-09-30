@@ -13,10 +13,12 @@
     "check:bundle": "tsx scripts/check-bundle.ts",
     "check:lighthouse": "lhci autorun",
     "lh:summary": "node scripts/lh-summary.mjs",
-    "icons": "tsx scripts/build-icons.ts"
+    "icons": "tsx scripts/build-icons.ts",
+    "db:migrate": "tsx scripts/db-migrate.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.126.0",
+    "@neondatabase/serverless": "^1.1.0",
     "@react-three/drei": "^10.7.8",
     "@react-three/fiber": "^9.7.0",
     "class-variance-authority": "^0.7.1",
@@ -27,6 +29,7 @@
     "next-themes": "^0.4.6",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "server-only": "^0.0.1",
     "tailwind-merge": "^3.7.0",
     "three": "^0.186.0",
     "zod": "^4.6.5",

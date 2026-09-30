@@ -16,6 +16,10 @@ const ROUTES = [
   "/resume",
   "/ask",
   "/contact",
+  // Feedback: the public wall, the sign-in, and a personal link that has expired.
+  "/feedback",
+  "/admin",
+  "/feedback/not-a-real-token",
 ];
 
 for (const scheme of ["light", "dark"] as const) {

@@ -23,6 +23,10 @@ const ROUTES = [
   "/teaching",
   "/resume",
   "/contact",
+  // Feedback: the public wall, the sign-in, and a personal link that has expired.
+  "/feedback",
+  "/admin",
+  "/feedback/not-a-real-token",
   // Renders every primitive including all three governance states, so it is the
   // only route that exercises gate and halt on their own tinted backgrounds.
   "/dev/kitchen-sink",
