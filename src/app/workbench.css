@@ -40,9 +40,17 @@
 /* The demo strip. Sits above the written work, so it gets the first section's spacing
    and `.selected-work` below it tightens to avoid two full gaps stacking. */
 .home-demos { padding-top:84px; }
-/* Two columns: four narrated demos fill two rows exactly, where three columns left one
-   card alone on a second row. Wider cards also suit what is in them, which is video. */
+/*
+  Two columns, with a shorter frame than the other previews on the site.
+
+  Two columns at 16:10 made each card 580x518 and the section over a screen tall; four
+  across made them too small to read. The frame here is 2:1 instead, which takes the
+  height out of the part that is only a preview (the walkthrough is one click away)
+  and leaves the title and summary at full size.
+*/
 .demo-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; list-style:none; }
+.demo-grid .demo-frame { aspect-ratio:2/1; }
+.demo-grid .demo-body { padding:16px 20px 18px; gap:6px; }
 .demo-card { display:flex; flex-direction:column; height:100%; overflow:hidden; border:1px solid var(--border); border-radius:14px; background:var(--surface); box-shadow:inset 0 1px var(--edge),var(--shadow-md); }
 .demo-frame { position:relative; display:block; aspect-ratio:16/10; overflow:hidden; background:var(--preview-mat); }
 .demo-frame > video, .demo-frame > img { width:100%; height:100%; object-fit:cover; object-position:top; }
