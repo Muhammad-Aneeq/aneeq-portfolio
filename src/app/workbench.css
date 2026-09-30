@@ -50,7 +50,12 @@
 .home-band { position:relative; isolation:isolate; margin-top:72px; padding:72px 0 80px !important;
   border-image:linear-gradient(var(--band) 0 0) fill 0 / / 0 100vmax; }
 .home-band::before { content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
-  background:radial-gradient(50% 70% at 15% 0%, var(--glow-a), transparent 70%); }
+  background:radial-gradient(55% 75% at 22% 0%, var(--glow-band), transparent 72%),
+    radial-gradient(45% 65% at 88% 100%, var(--glow-teal), transparent 72%);
+  /* Feathered at the sides: the glow is clipped to the content column while the band
+     tint runs full width, and without the mask that column edge showed as a seam. */
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent); }
 @media (max-width:900px) { .home-band { margin-top:48px; padding:52px 0 60px !important; } }
 /* The featured row: the one work section on the home page. */
 .home-demos { padding-top:84px; }
@@ -188,18 +193,20 @@
   background:radial-gradient(42% 46% at 58% 34%,var(--glow-a),transparent 74%),radial-gradient(36% 42% at 28% 74%,var(--glow-b),transparent 70%);
   -webkit-mask-image:radial-gradient(78% 78% at 55% 42%,#000 38%,transparent 100%);
   mask-image:radial-gradient(78% 78% at 55% 42%,#000 38%,transparent 100%); }
-/* A second, fainter wash behind the headline, so the depth is not all on one side. */
-.portfolio-hero::after { content:""; position:absolute; z-index:-1; pointer-events:none; inset:0 40% 0 0;
-  background:radial-gradient(60% 55% at 20% 30%,var(--glow-b),transparent 72%);
-  -webkit-mask-image:radial-gradient(80% 80% at 35% 40%,#000 40%,transparent 100%);
-  mask-image:radial-gradient(80% 80% at 35% 40%,#000 40%,transparent 100%); }
+/* A second wash behind the headline, so the depth is not all on one side. */
+.portfolio-hero::after { content:""; position:absolute; z-index:-1; pointer-events:none; inset:-6% 34% -6% -14%;
+  background:radial-gradient(60% 55% at 20% 30%,var(--glow-hero),transparent 72%),radial-gradient(40% 40% at 70% 80%,var(--glow-teal),transparent 70%);
+  /* closest-side reaches exactly to the box edges, so the wash is fully transparent at
+     every edge and can never show the content column's line as a seam. */
+  -webkit-mask-image:radial-gradient(closest-side,#000 45%,transparent);
+  mask-image:radial-gradient(closest-side,#000 45%,transparent); }
 .portfolio-button-secondary { background:var(--surface); color:var(--accent); border:1px solid var(--border-strong); box-shadow:var(--shadow-md); }
 .portfolio-button, .site-contact { transition:transform var(--duration-micro) var(--ease-out-expo), background-color var(--duration-micro), box-shadow var(--duration-micro); }
 .portfolio-button:active, .site-contact:active { transform:translateY(1px); }
 .portfolio-text-link, .workbench-link { color:var(--accent); text-decoration:underline; text-decoration-color:transparent; text-underline-offset:5px; transition:color var(--duration-micro), text-decoration-color var(--duration-micro); }
 .portfolio-text-link:focus-visible, .workbench-link:focus-visible { text-decoration-color:currentColor; }
 /* Cards carry a faint accent-tinted lift at the top edge: raised, not flat. */
-.raised-surface, .demo-card { box-shadow:inset 0 1px var(--edge),var(--shadow-md); background-image:linear-gradient(180deg,var(--surface-lift),transparent 42%); }
+.raised-surface, .demo-card { box-shadow:inset 0 1px var(--edge),var(--shadow-md); background-image:linear-gradient(180deg,var(--surface-lift),transparent 55%); }
 .interactive-surface { transition:transform var(--duration-ui) var(--ease-out-expo),border-color var(--duration-micro),box-shadow var(--duration-ui); }
 .interactive-surface:focus-within { border-color:var(--accent); }
 .career-proof { position:relative; background:radial-gradient(ellipse at 12% 0,var(--glow-b),transparent 60%); }

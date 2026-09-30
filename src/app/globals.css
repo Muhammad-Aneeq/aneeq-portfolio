@@ -9,10 +9,13 @@
   --shadow-md:0 1px 2px #0000004d, 0 6px 16px #00000047;
   --shadow-lg:0 1px 2px #0000004d, 0 12px 28px #00000052, 0 28px 60px #00000038;
   --glow-a:rgb(169 186 255 / .13); --glow-b:rgb(169 186 255 / .06);
+  /* The two decorative washes (hero headline, featured band): strong enough to be seen,
+     with a teal second hue so they read as a gradient rather than a grey haze. */
+  --glow-hero:rgb(169 186 255 / .17); --glow-band:rgb(169 186 255 / .2); --glow-teal:oklch(0.82 0.16 175 / .09);
   /* Derived, so one definition serves both themes: each resolves against whichever
      --surface, --bg and --accent the theme sets on the same element. */
-  --band: color-mix(in oklab, var(--surface) 55%, var(--bg));
-  --surface-lift: color-mix(in oklab, var(--surface) 94%, var(--accent));
+  --band: color-mix(in oklab, color-mix(in oklab, var(--surface) 70%, var(--bg)) 95%, var(--accent));
+  --surface-lift: color-mix(in oklab, var(--surface) 86%, var(--accent));
   --edge:rgb(242 245 250 / .09);
   --preview-mat:#242d40; --preview-mat-alt:#293247;
   --duration-micro:140ms; --duration-ui:200ms; --duration-base:320ms;
@@ -32,6 +35,7 @@
   --shadow-md:0 1px 2px rgb(24 40 80 / .04), 0 6px 16px rgb(24 40 80 / .06);
   --shadow-lg:0 1px 2px rgb(24 40 80 / .04), 0 12px 28px rgb(24 40 80 / .07), 0 28px 60px rgb(24 40 80 / .05);
   --glow-a:rgb(51 80 207 / .07); --glow-b:rgb(51 80 207 / .03);
+  --glow-hero:rgb(51 80 207 / .1); --glow-band:rgb(51 80 207 / .12); --glow-teal:oklch(0.62 0.13 175 / .08);
   --edge:rgb(255 255 255 / .8);
   --preview-mat:#e2e7f0; --preview-mat-alt:#dce3f1;
   /*
@@ -196,13 +200,19 @@
 /*
   View transitions (React <ViewTransition>, the browser's native API; no library).
 
-  Pages crossfade quickly so the old one does not linger; a project's preview morphs
-  into its page header a little slower, long enough to read as one object moving.
+  The page content fades out quickly and the new page rises 14px into place, so a
+  navigation reads as movement rather than a cut; a plain 220ms crossfade between two
+  dark pages was too slight to notice. The header and footer are identical on both
+  sides of the root crossfade, so they stay put. A project's preview morphs into its
+  page header a little slower, long enough to read as one object moving.
   Reduced motion switches every transition off, not merely shortens it.
 */
-::view-transition-old(root), ::view-transition-new(root),
-::view-transition-old(.page), ::view-transition-new(.page) { animation-duration:220ms; }
-::view-transition-group(.morph) { animation-duration:380ms; animation-timing-function:cubic-bezier(.2,.8,.2,1); }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration:200ms; }
+::view-transition-old(.page) { animation:160ms ease-in both vt-page-out; }
+::view-transition-new(.page) { animation:380ms cubic-bezier(.2,.8,.2,1) 60ms both vt-page-in; }
+@keyframes vt-page-out { to { opacity:0; } }
+@keyframes vt-page-in { from { opacity:0; transform:translateY(14px); } }
+::view-transition-group(.morph) { animation-duration:480ms; animation-timing-function:cubic-bezier(.2,.8,.2,1); }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation:none !important; }
 }
