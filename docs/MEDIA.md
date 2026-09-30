@@ -111,10 +111,10 @@ Blob solves a problem this site does not have. The deciding number:
 |---|---|
 | Vercel's own guidance: consider a CDN above | ~1 MB per file |
 | Hobby static upload ceiling | 100 MB total |
-| All 9 compressed walkthroughs together | ~15.6 MB |
-| **Everything under `public/media`** | **~29 MB, 81 files** |
+| All 10 compressed walkthroughs together | ~18.1 MB |
+| **Everything under `public/media`** | **~31 MB, 83 files** |
 
-Twenty-nine megabytes against a hundred. Blob would add a storage service, a store to
+31 MB against a hundred. Blob would add a storage service, a store to
 configure, credentials, an SDK dependency, and URLs that live outside the repo — and buy
 nothing, because nothing here is under pressure.
 

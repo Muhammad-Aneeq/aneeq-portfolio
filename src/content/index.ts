@@ -117,7 +117,7 @@ const isDemoable = (p: { walkthrough?: unknown; shots: unknown[] }) =>
   Ordering applies to /demos only. /work and /labs keep their own curated order, so the
   full index still opens on what it has always opened on.
 */
-const NARRATED = ["revledger", "invoiceaudit", "ledgerlens"];
+const NARRATED = ["revledger", "invoiceaudit", "ledgerlens", "ledgerlab"];
 
 const demosFirst = <T extends { slug: string; walkthrough?: unknown }>(items: T[]): T[] => {
   const rank = (p: T) => {
@@ -180,7 +180,7 @@ export type DemoProject = {
   loop?: CaseStudy["loop"];
 };
 
-const DEMO_ORDER = ["revledger", "invoiceaudit", "ledgerlens"] as const;
+const DEMO_ORDER = ["revledger", "invoiceaudit", "ledgerlens", "ledgerlab"] as const;
 
 const missingDemo = (slug: string) =>
   new Error(

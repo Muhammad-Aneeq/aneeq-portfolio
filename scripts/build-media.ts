@@ -137,17 +137,20 @@ const JOBS: Job[] = [
   },
   {
     slug: "ledgerlab",
-    source: join(LABS, "ledgerlab/dist/demo/ledgerlab-demo-nightmare.webm"),
-    // The live feed mid-run, where tool calls are actually arriving.
-    loopStart: 90,
-    loopSeconds: 6,
     /*
-      Loop only. The source is 7m47s of a scrolling tool-call log: shipping it whole
-      would be the largest asset on the site by a wide margin, for a recording almost
-      nobody watches to the end. The hover loop shows what it is; the case study
-      already carries stills for the detail.
+      The narrated 1m11s cut, replacing the 7m47s silent tool-call log. That one was
+      shipped loop-only because nobody watches eight minutes of scrolling rows; this
+      one explains the run and ends on the score, so it ships in full.
+
+      The presenter in this recording is AI-generated, unlike the other narrated
+      demos. The case study's walkthrough caption says so, as the LinkedIn post did.
     */
-    full: false,
+    source: join(LABS, "ledgerlab/dist/demo/0930.mp4"),
+    // The live feed with tool calls arriving: 40s to 46s is product throughout,
+    // between the counterparties search and the cut to the session detail.
+    loopStart: 40,
+    loopSeconds: 6,
+    full: true,
   },
 ];
 
@@ -161,7 +164,14 @@ function mb(path: string) {
   return (statSync(path).size / 1024 / 1024).toFixed(1);
 }
 
-for (const job of JOBS) {
+/*
+  MEDIA_ONLY=slug[,slug] rebuilds just those jobs. Adding one demo should not mean
+  re-encoding every other walkthrough on the site, which takes minutes and produces
+  byte-different files with no visible change.
+*/
+const only = process.env.MEDIA_ONLY?.split(",").map((s) => s.trim()).filter(Boolean);
+
+for (const job of only ? JOBS.filter((j) => only.includes(j.slug)) : JOBS) {
   if (!existsSync(job.source)) {
     console.log(`skip  ${job.slug} — source not found: ${job.source}`);
     continue;

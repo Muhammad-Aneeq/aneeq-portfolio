@@ -21,11 +21,26 @@ export const ledgerlab: CaseStudyInput = {
   links: { repo: "https://github.com/Muhammad-Aneeq/ledgerlab", repoPublic: true },
 
   /*
-    Loop only, no walkthrough. The source recording is 7m47s of a scrolling tool-call
-    log — shipping it whole would make it the largest asset on the site by a wide
-    margin, for something almost nobody watches to the end. The loop shows what the
-    live feed looks like; the stills below carry the detail.
+    A narrated 1m11s cut, replacing the loop-only 7m47s tool-call log.
+
+    Two things the caption has to carry, and does:
+
+    · The presenter is AI-generated. The other narrated demos on the site are not, so
+      saying nothing would let a reader assume this one is too. The LinkedIn post
+      disclosed it; the site does the same.
+    · The score on screen is a different run from the table below. The video ends on a
+      live GPT-5.6 Luna agent at 52.1% coverage and 100% precision on nightmare. The
+      evaluation table is the deterministic heuristic reference, at 100/100 on every
+      profile. Both are real. Without the distinction a reader sees 52.1% in one place
+      and 100% in the other and reasonably concludes one of them is wrong.
   */
+  walkthrough: {
+    src: "/media/ledgerlab/walkthrough.mp4",
+    poster: "/media/ledgerlab/walkthrough.jpg",
+    seconds: 71,
+    caption:
+      "A nightmare-profile world of 105 transactions, a live GPT-5.6 Luna agent reconciling it over MCP, then the answer key revealed: 52.1% coverage and 100% precision. It matched about half of what it could, and every match it made was correct. That is a live model run; the table below is the deterministic reference heuristic. The presenter is AI-generated; the project and the numbers are real.",
+  },
   loop: {
     webm: "/media/ledgerlab/loop.webm",
     mp4: "/media/ledgerlab/loop.mp4",
