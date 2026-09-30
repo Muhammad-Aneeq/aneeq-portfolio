@@ -16,6 +16,13 @@ loadEnvConfig(process.cwd());
 async function main() {
   const url = process.env.DATABASE_URL;
   if (!url) {
+    // On Vercel this runs before every build (the `vercel-build` script). A deployment
+    // with no database attached, such as a preview, should still build: the site
+    // runs without one. Locally, a missing URL is a mistake worth stopping for.
+    if (process.env.VERCEL) {
+      console.log("db:migrate skipped: no DATABASE_URL on this deployment");
+      return;
+    }
     console.error("DATABASE_URL is not set. Add it to .env.local first.");
     process.exit(1);
   }

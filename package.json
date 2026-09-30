@@ -14,7 +14,8 @@
     "check:lighthouse": "lhci autorun",
     "lh:summary": "node scripts/lh-summary.mjs",
     "icons": "tsx scripts/build-icons.ts",
-    "db:migrate": "tsx scripts/db-migrate.ts"
+    "db:migrate": "tsx scripts/db-migrate.ts",
+    "vercel-build": "npm run db:migrate && next build"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.126.0",
