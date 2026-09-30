@@ -3,7 +3,7 @@
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, ViewTransition } from "react";
 import { CardLoop } from "@/components/media/card-loop";
 import { Surface } from "@/components/ui/surface";
 import { TagRow } from "@/components/ui/tag-chip";
@@ -85,41 +85,26 @@ export function LabsGrid({ labs }: { labs: Lab[] }) {
           </div>
 
           {/*
-            Domain group, second — capability-first is the positioning rule, and the chip
-            order on this page is part of it (SPEC §1).
+            Domain group, second: capability-first is the positioning rule (SPEC §1).
 
-            With only one domain represented it is rendered as a label rather than a
-            control. A filter with a single option is a button that cannot change
-            anything: pressing it either does nothing visible or removes every card, and
-            both outcomes teach a reader that the controls on this page are decorative.
-            It becomes a real filter again on its own the moment a second domain has a
-            captured project.
+            Rendered only once there is more than one domain to choose between. With a
+            single domain it was a "domain · Finance · all 11" readout under the chips,
+            which repeated what the page intro already says and added one more row of
+            small text to scan. It returns as a real filter the moment a second domain
+            has a project.
           */}
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs text-faint" data-readout>
-              domain
-            </span>
-            {domains.length === 1 ? (
-              <span className="text-xs text-muted" data-readout>
-                {DOMAIN_LABELS[domains[0]]} · all {labs.length}
-              </span>
-            ) : (
-              <span className="contents" role="group" aria-label="Filter by domain">
-                {domains.map((d) => {
-                  const count = labs.filter((l) => l.domain === d).length;
-                  return (
-                    <FilterChip
-                      key={d}
-                      active={domain === d}
-                      onClick={() => setDomain(domain === d ? null : d)}
-                    >
-                      {DOMAIN_LABELS[d]} {count}
-                    </FilterChip>
-                  );
-                })}
-              </span>
-            )}
-          </div>
+          {domains.length > 1 && (
+            <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter by domain">
+              {domains.map((d) => {
+                const count = labs.filter((l) => l.domain === d).length;
+                return (
+                  <FilterChip key={d} active={domain === d} onClick={() => setDomain(domain === d ? null : d)}>
+                    {DOMAIN_LABELS[d]} {count}
+                  </FilterChip>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
 
@@ -165,6 +150,7 @@ export function LabsGrid({ labs }: { labs: Lab[] }) {
                 inset frame on surface-2, the same treatment the case study cards use,
                 makes nine unrelated screenshots read as one set.
               */}
+              <ViewTransition name={`media-${lab.slug}`} share="morph" default="none">
               <div className="aspect-[16/10] border-b border-border bg-surface-2 p-2">
               <div className="h-full overflow-hidden rounded-md ring-1 ring-border">
                 {lab.loop ? (
@@ -198,6 +184,7 @@ export function LabsGrid({ labs }: { labs: Lab[] }) {
                 )}
               </div>
               </div>
+              </ViewTransition>
 
               <div className="flex flex-1 flex-col p-6">
                 <div className="flex items-start justify-between gap-4">

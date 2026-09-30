@@ -18,7 +18,7 @@ export default function WorkCaseStudiesPage() {
       <Stagger className="work-case-studies mt-10 grid gap-6">
         {caseStudies.map((study) => (
           <StaggerItem key={study.slug}>
-            <ProjectCard study={study} showWhyFlagship />
+            <ProjectCard study={study} />
           </StaggerItem>
         ))}
       </Stagger>

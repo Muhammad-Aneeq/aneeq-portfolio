@@ -44,7 +44,8 @@ test("introduction and project evidence survive without JavaScript", async ({ br
   const page = await context.newPage();
   await page.goto("/");
   await expect(page.locator("h1")).toBeVisible();
-  await expect(page.locator(".project-preview")).toHaveCount(3);
+  // One featured row of three, replacing the demo strip plus case-study previews.
+  await expect(page.locator("#featured-work .demo-card")).toHaveCount(3);
   await expect(page.getByRole("button", { name: "Send", exact: true })).toBeVisible();
   await context.close();
 });

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ViewTransition } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CaseStudyJsonLd } from "@/components/json-ld";
@@ -95,7 +96,10 @@ export default async function CaseStudyPage({
         */}
         {study.walkthrough && (
           <div className="mt-12">
+            {/* Shares its name with the list card's preview: opening a card morphs it here. */}
+          <ViewTransition name={`media-${study.slug}`} share="morph" default="none">
             <Walkthrough walkthrough={study.walkthrough} />
+          </ViewTransition>
           </div>
         )}
 

@@ -37,20 +37,30 @@
 .workbench-link { display:flex; align-items:center; justify-content:space-between; margin:0 24px; padding:13px 0 17px; border-top:1px solid var(--border); font-size:12px; }
 .career-proof { display:grid; grid-template-columns:repeat(4,1fr); border-block:1px solid var(--border); padding:28px 0; gap:28px; }
 .career-proof a { display:flex; flex-direction:column; align-items:flex-start; gap:6px; }
-/* The demo strip. Sits above the written work, so it gets the first section's spacing
-   and `.selected-work` below it tightens to avoid two full gaps stacking. */
+/*
+  A band: the featured row sits on a slightly lifted, faintly tinted ground that runs
+  edge to edge, so the page has a change of surface instead of one flat wall of the
+  same dark.
+
+  Full-bleed via border-image outset: it paints past the element's box as ink overflow,
+  which never counts towards scroll width. A box-shadow spread clipped with clip-path
+  was the first attempt and did add 9px of horizontal scroll at 320px in Chrome,
+  caught by the phone-width test.
+*/
+.home-band { position:relative; isolation:isolate; margin-top:72px; padding:72px 0 80px !important;
+  border-image:linear-gradient(var(--band) 0 0) fill 0 / / 0 100vmax; }
+.home-band::before { content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:radial-gradient(50% 70% at 15% 0%, var(--glow-a), transparent 70%); }
+@media (max-width:900px) { .home-band { margin-top:48px; padding:52px 0 60px !important; } }
+/* The featured row: the one work section on the home page. */
 .home-demos { padding-top:84px; }
 /*
-  Two columns, with a shorter frame than the other previews on the site.
-
-  Two columns at 16:10 made each card 580x518 and the section over a screen tall; four
-  across made them too small to read. The frame here is 2:1 instead, which takes the
-  height out of the part that is only a preview (the walkthrough is one click away)
-  and leaves the title and summary at full size.
+  Three across: the three featured projects fill one row at a size where the preview
+  and its summary both read. Two columns at 16:10 made a second row and a section
+  taller than a screen; four made the cards too small.
 */
-.demo-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; list-style:none; }
-.demo-grid .demo-frame { aspect-ratio:2/1; }
-.demo-grid .demo-body { padding:16px 20px 18px; gap:6px; }
+.demo-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; list-style:none; }
+.featured-links { display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
 .demo-card { display:flex; flex-direction:column; height:100%; overflow:hidden; border:1px solid var(--border); border-radius:14px; background:var(--surface); box-shadow:inset 0 1px var(--edge),var(--shadow-md); }
 .demo-frame { position:relative; display:block; aspect-ratio:16/10; overflow:hidden; background:var(--preview-mat); }
 .demo-frame > video, .demo-frame > img { width:100%; height:100%; object-fit:cover; object-position:top; }
@@ -58,31 +68,14 @@
    ninety seconds and not fifteen minutes. */
 .demo-duration { position:absolute; right:10px; bottom:10px; padding:3px 8px; border-radius:5px; font-size:12px; background:var(--scrim); color:var(--text); border:1px solid var(--border); }
 .demo-body { display:flex; flex-direction:column; gap:8px; padding:18px 20px 20px; flex:1; }
-.demo-body strong { font-family:var(--font-display); font-size:19px; letter-spacing:-.02em; }
+.demo-body .demo-title { font-family:var(--font-display); font-size:19px; font-weight:700; letter-spacing:-.02em; line-height:1.25; }
 .demo-body > span { font-size:13px; line-height:1.7; color:var(--muted); }
 .demo-cue { display:inline-flex; align-items:center; gap:7px; margin-top:auto; padding-top:6px; color:var(--accent); font-size:13px; }
 @media (max-width:900px) { .demo-grid { grid-template-columns:1fr; gap:20px; } .home-demos { padding-top:58px; } }
-.selected-work { padding-top:91px; scroll-margin-top:90px; }
 .home-feedback { padding-top:91px; }
 .portfolio-section-heading { display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin-bottom:33px; }
 .section-context { font-size:12px; color:var(--muted); margin-bottom:11px; }
 .portfolio-section-heading h2 { font-size:var(--text-h2); line-height:var(--text-h2--line-height); letter-spacing:var(--text-h2--letter-spacing); }
-.featured-projects { display:grid; grid-template-columns:1fr 1fr; gap:42px 28px; }
-.project-0 { grid-column:1 / -1; }
-.project-preview { display:block; background:var(--preview-mat); border-radius:12px; overflow:hidden; padding:0 27px; border:1px solid var(--border); }
-.project-0 .project-preview { background:var(--preview-mat); padding:0 60px; }
-.project-1 .project-preview { background:var(--preview-mat); }
-.project-2 .project-preview { background:var(--preview-mat); }
-.preview-toolbar { display:flex; justify-content:space-between; padding:19px 0; color:var(--muted); font-size:12px; }
-.preview-toolbar > span:last-child { display:flex; align-items:center; gap:6px; }
-.project-shot { width:100%; height:250px; object-fit:cover; object-position:top; border-radius:7px 7px 0 0; border:1px solid var(--border-strong); box-shadow:var(--shadow-md); transition:transform var(--duration-base) var(--ease-out-expo); }
-.project-0 .project-shot { height:420px; }
-.project-description { display:grid; gap:10px; margin-top:20px; }
-.project-0 .project-description { grid-template-columns:1fr 1fr; align-items:center; gap:40px; }
-.project-stack { font-size:12px; color:var(--muted); }
-.project-description h3 { margin-top:6px; font-size:var(--text-h3); line-height:var(--text-h3--line-height); letter-spacing:var(--text-h3--letter-spacing); }
-.project-description h3 a { display:flex; align-items:center; gap:12px; }
-.project-description > p { font-size:14px; color:var(--muted); line-height:1.8; max-width:var(--container-tight); }
 .engineering-section { display:grid; grid-template-columns:1fr 1.2fr; gap:70px; padding:80px 0; margin-top:85px; border-top:1px solid var(--border); }
 .engineering-section h2 { font-size:var(--text-h2); line-height:var(--text-h2--line-height); letter-spacing:var(--text-h2--letter-spacing); margin-bottom:24px; }
 .engineering-copy > p { font-size:18px; line-height:1.8; margin-bottom:20px; }
@@ -104,7 +97,6 @@
 .site-contact { align-items:center; gap:8px; border-radius:6px; border:1px solid var(--border-strong); color:var(--text); padding:8px 13px; font-size:12px; transition:border-color var(--duration-micro), background-color var(--duration-micro); }
 @media (hover:hover) and (pointer:fine) { .site-contact:hover { border-color:var(--text); background:var(--surface); } }
 @media (hover:hover) and (pointer:fine) {
-  .project-preview:hover .project-shot { transform:scale(1.025); }
   .portfolio-text-link:hover, .workbench-link:hover { color:var(--accent); }
   .workflow-stage:not([aria-current=true]):hover { border-color:var(--accent); }
   .portfolio-button:hover { opacity:.88; }
@@ -122,20 +114,14 @@
   .hero-description { font-size:15px; }
   .workbench { max-width:560px; width:100%; }
   .career-proof { grid-template-columns:1fr 1fr; gap:25px; }
-  .selected-work, .home-feedback { padding-top:58px; }
+  .home-feedback { padding-top:58px; }
   .portfolio-section-heading { align-items:flex-start; flex-direction:column; gap:8px; }
-  .featured-projects { grid-template-columns:1fr; gap:32px; }
-  .project-0 { grid-column:auto; }
-  .project-0 .project-preview, .project-preview { padding:0 18px; }
-  .project-0 .project-shot, .project-shot { height:240px; }
-  .project-0 .project-description { grid-template-columns:1fr; gap:10px; }
   .engineering-section { grid-template-columns:1fr; gap:25px; margin-top:52px; padding:45px 0; }
   .home-contact { padding:30px 23px; }
   .home-contact > p { font-size:12px; }
 }
 @media (prefers-reduced-motion:reduce) {
   .workbench { animation:none; }
-  .project-preview .project-shot { transition:none; transform:none; }
 }
 
 .hero-finance-link { margin-top:18px; color:var(--accent); }
@@ -202,17 +188,20 @@
   background:radial-gradient(42% 46% at 58% 34%,var(--glow-a),transparent 74%),radial-gradient(36% 42% at 28% 74%,var(--glow-b),transparent 70%);
   -webkit-mask-image:radial-gradient(78% 78% at 55% 42%,#000 38%,transparent 100%);
   mask-image:radial-gradient(78% 78% at 55% 42%,#000 38%,transparent 100%); }
+/* A second, fainter wash behind the headline, so the depth is not all on one side. */
+.portfolio-hero::after { content:""; position:absolute; z-index:-1; pointer-events:none; inset:0 40% 0 0;
+  background:radial-gradient(60% 55% at 20% 30%,var(--glow-b),transparent 72%);
+  -webkit-mask-image:radial-gradient(80% 80% at 35% 40%,#000 40%,transparent 100%);
+  mask-image:radial-gradient(80% 80% at 35% 40%,#000 40%,transparent 100%); }
 .portfolio-button-secondary { background:var(--surface); color:var(--accent); border:1px solid var(--border-strong); box-shadow:var(--shadow-md); }
 .portfolio-button, .site-contact { transition:transform var(--duration-micro) var(--ease-out-expo), background-color var(--duration-micro), box-shadow var(--duration-micro); }
 .portfolio-button:active, .site-contact:active { transform:translateY(1px); }
 .portfolio-text-link, .workbench-link { color:var(--accent); text-decoration:underline; text-decoration-color:transparent; text-underline-offset:5px; transition:color var(--duration-micro), text-decoration-color var(--duration-micro); }
 .portfolio-text-link:focus-visible, .workbench-link:focus-visible { text-decoration-color:currentColor; }
-.project-preview { box-shadow:inset 0 1px var(--edge),var(--shadow-md); transition:transform var(--duration-base) var(--ease-out-expo),box-shadow var(--duration-base),border-color var(--duration-micro); }
-.project-1 .project-preview { background:var(--preview-mat-alt); }
-.project-shot { transform-origin:50% 0; }
-.raised-surface { box-shadow:inset 0 1px var(--edge),var(--shadow-md); }
+/* Cards carry a faint accent-tinted lift at the top edge: raised, not flat. */
+.raised-surface, .demo-card { box-shadow:inset 0 1px var(--edge),var(--shadow-md); background-image:linear-gradient(180deg,var(--surface-lift),transparent 42%); }
 .interactive-surface { transition:transform var(--duration-ui) var(--ease-out-expo),border-color var(--duration-micro),box-shadow var(--duration-ui); }
-.interactive-surface:focus-within, .project-preview:focus-visible { border-color:var(--accent); }
+.interactive-surface:focus-within { border-color:var(--accent); }
 .career-proof { position:relative; background:radial-gradient(ellipse at 12% 0,var(--glow-b),transparent 60%); }
 .career-proof li > a > span:first-child { position:relative; }
 .home-contact { position:relative; isolation:isolate; border:1px solid var(--border); box-shadow:inset 0 1px var(--edge),var(--shadow-lg); background:linear-gradient(135deg,var(--surface),var(--surface-2)); }
@@ -297,7 +286,6 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
   /* The 8px rule under a metric grows and takes the ink colour. Tailwind already
      supplies the colour via `group-hover`; this adds the movement and the easing. */
   .metric-link:hover .h-px { width:2.5rem; }
-  .project-preview:hover { transform:translateY(-3px); border-color:var(--border-strong); box-shadow:var(--shadow-lg); }
   .interactive-surface:hover { transform:translateY(-2px); border-color:var(--border-strong); box-shadow:var(--shadow-lg); }
   .portfolio-text-link:hover, .workbench-link:hover { text-decoration-color:currentColor; }
 }
@@ -324,12 +312,12 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
   .portfolio-hero::before { animation:hero-wash var(--duration-hero) var(--ease-out-expo) both, hero-drift 38s var(--duration-hero) ease-in-out infinite alternate; }
   .home-contact::before, .contact-panel::before { animation:hero-drift 52s ease-in-out infinite alternate; }
   @supports (animation-timeline:view()) {
-    :is(.featured-projects,.work-case-studies,.career-proof) > [data-reveal] {
+    :is(.work-case-studies,.career-proof) > [data-reveal] {
       animation-name:card-arrive; animation-duration:auto; animation-fill-mode:both;
       animation-timing-function:var(--ease-out-expo); animation-timeline:view(); animation-range:entry 0% entry 85%;
     }
-    :is(.featured-projects,.work-case-studies,.career-proof) > [data-reveal]:nth-child(2) { animation-range:entry 0% entry 90%; }
-    :is(.featured-projects,.work-case-studies,.career-proof) > [data-reveal]:nth-child(n+3) { animation-range:entry 0% entry 100%; }
+    :is(.work-case-studies,.career-proof) > [data-reveal]:nth-child(2) { animation-range:entry 0% entry 90%; }
+    :is(.work-case-studies,.career-proof) > [data-reveal]:nth-child(n+3) { animation-range:entry 0% entry 100%; }
   }
   @supports (animation-timeline:scroll()) {
     .site-navigation { animation-name:nav-depth; animation-fill-mode:both; animation-duration:auto; animation-timeline:scroll(); animation-range:0px 120px; }
@@ -342,7 +330,7 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
 @keyframes hero-drift { from { transform:none; } to { transform:translate3d(-3%,2%,0) scale(1.09); } }
 @media (prefers-reduced-motion:reduce) {
   .workbench, .portfolio-hero::before, .home-contact::before, .contact-panel::before, .site-navigation, [data-reveal] { animation:none; animation-timeline:none; transform:none; }
-  .project-preview:hover, .interactive-surface:hover, .project-preview:hover .project-shot, .portfolio-button:active, .site-contact:active { transform:none; }
+  .interactive-surface:hover, .portfolio-button:active, .site-contact:active { transform:none; }
 }
 
 /* Utility pages: the shell is page-width like everywhere else, but a form and a

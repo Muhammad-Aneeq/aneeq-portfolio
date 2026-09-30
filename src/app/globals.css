@@ -9,6 +9,10 @@
   --shadow-md:0 1px 2px #0000004d, 0 6px 16px #00000047;
   --shadow-lg:0 1px 2px #0000004d, 0 12px 28px #00000052, 0 28px 60px #00000038;
   --glow-a:rgb(169 186 255 / .13); --glow-b:rgb(169 186 255 / .06);
+  /* Derived, so one definition serves both themes: each resolves against whichever
+     --surface, --bg and --accent the theme sets on the same element. */
+  --band: color-mix(in oklab, var(--surface) 55%, var(--bg));
+  --surface-lift: color-mix(in oklab, var(--surface) 94%, var(--accent));
   --edge:rgb(242 245 250 / .09);
   --preview-mat:#242d40; --preview-mat-alt:#293247;
   --duration-micro:140ms; --duration-ui:200ms; --duration-base:320ms;
@@ -187,4 +191,18 @@
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/*
+  View transitions (React <ViewTransition>, the browser's native API; no library).
+
+  Pages crossfade quickly so the old one does not linger; a project's preview morphs
+  into its page header a little slower, long enough to read as one object moving.
+  Reduced motion switches every transition off, not merely shortens it.
+*/
+::view-transition-old(root), ::view-transition-new(root),
+::view-transition-old(.page), ::view-transition-new(.page) { animation-duration:220ms; }
+::view-transition-group(.morph) { animation-duration:380ms; animation-timing-function:cubic-bezier(.2,.8,.2,1); }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation:none !important; }
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ViewTransition } from "react";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/layout/container";
 import { BackLink } from "@/components/ui/back-link";
@@ -70,7 +71,10 @@ export default async function LabPage({ params }: { params: Promise<{ slug: stri
       */}
       {lab.walkthrough && (
         <div className="mt-12">
-          <Walkthrough walkthrough={lab.walkthrough} />
+          {/* Shares its name with the list card's preview: opening a card morphs it here. */}
+          <ViewTransition name={`media-${lab.slug}`} share="morph" default="none">
+            <Walkthrough walkthrough={lab.walkthrough} />
+          </ViewTransition>
         </div>
       )}
 

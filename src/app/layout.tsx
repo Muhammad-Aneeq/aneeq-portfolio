@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { ViewTransition } from "react";
 import { PersonJsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteNav } from "@/components/layout/site-nav";
@@ -70,7 +71,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <NavigationMemory />
           <SiteNav />
-          <main id="main">{children}</main>
+          {/*
+            The page content crossfades on navigation; the bar and footer, outside this
+            boundary, stay put, so moving between pages reads as the content changing
+            rather than the whole site reloading. Timings and the reduced-motion
+            switch-off are in globals.css.
+          */}
+          <ViewTransition default="page">
+            <main id="main">{children}</main>
+          </ViewTransition>
           <SiteFooter />
 
         </ThemeProvider>

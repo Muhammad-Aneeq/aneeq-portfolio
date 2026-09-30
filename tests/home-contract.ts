@@ -11,7 +11,8 @@ export async function assertHomeContent(page: Page) {
     expect(metric.scope).toBeTruthy();
     await expect(proof.getByText(metric.scope!, { exact: true })).toBeVisible();
   }
-  for (const name of ["CloseOps", "FinAgent-Evals", "LedgerLens"]) {
+  // The featured row: the three narrated walkthroughs the home page leads with.
+  for (const name of ["RevLedger", "InvoiceAudit", "LedgerLens"]) {
     await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
   }
   await expect(page.getByRole("heading", { name: /Have a hard problem/i })).toBeVisible();
