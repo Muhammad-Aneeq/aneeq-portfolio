@@ -5,6 +5,7 @@ import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Surface } from "@/components/ui/surface";
+import { FeedbackWall } from "@/components/feedback/feedback-wall";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -165,6 +166,20 @@ export default function ServicesPage() {
           </StaggerItem>
         ))}
       </Stagger>
+
+      {/* Reviews beside the offer, where a client decides. Absent until one is approved. */}
+      <FeedbackWall
+        limit={3}
+        className="mt-20 border-t border-border pt-12"
+        header={
+          <SectionHeader
+            eyebrow="feedback"
+            title="What people I have worked with say"
+            description="Sent through a personal link after the work, published with permission."
+            className="mb-10"
+          />
+        }
+      />
 
       <section className="mt-20 border-t border-border pt-12">
         <SectionHeader

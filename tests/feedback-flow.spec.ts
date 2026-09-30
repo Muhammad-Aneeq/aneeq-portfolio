@@ -171,11 +171,19 @@ test.describe("invite to publication", () => {
     await expect(wall.getByText("Former employer").first()).toBeVisible();
     await expect(wall.getByText("Finance Director, Northwind")).toBeVisible();
 
+    // Home and services are built ahead of time; approving must rebuild them.
+    for (const route of ["/", "/services"]) {
+      await pub.goto(route);
+      await expect(pub.getByTestId("feedback-wall").getByText(name), route).toBeVisible();
+    }
+
     // Unpublish takes it straight back off the site.
     await adminPage.getByTestId("queue-approved").locator(`[data-entry-name="${name}"]`).getByRole("button", { name: "Unpublish" }).click();
     await expect(adminPage.getByTestId("queue-pending").locator(`[data-entry-name="${name}"]`)).toBeVisible();
-    await pub.goto("/feedback");
-    await expect(pub.getByText(name)).toHaveCount(0);
+    for (const route of ["/feedback", "/", "/services"]) {
+      await pub.goto(route);
+      await expect(pub.getByText(name), `${route} after unpublish`).toHaveCount(0);
+    }
 
     await guest.close();
     await admin.close();

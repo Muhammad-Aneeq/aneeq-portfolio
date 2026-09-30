@@ -55,6 +55,7 @@
 .demo-cue { display:inline-flex; align-items:center; gap:7px; margin-top:auto; padding-top:6px; color:var(--accent); font-size:13px; }
 @media (max-width:900px) { .demo-grid { grid-template-columns:1fr; gap:20px; } .home-demos { padding-top:58px; } }
 .selected-work { padding-top:91px; scroll-margin-top:90px; }
+.home-feedback { padding-top:91px; }
 .portfolio-section-heading { display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin-bottom:33px; }
 .section-context { font-size:12px; color:var(--muted); margin-bottom:11px; }
 .portfolio-section-heading h2 { font-size:var(--text-h2); line-height:var(--text-h2--line-height); letter-spacing:var(--text-h2--letter-spacing); }
@@ -113,7 +114,7 @@
   .hero-description { font-size:15px; }
   .workbench { max-width:560px; width:100%; }
   .career-proof { grid-template-columns:1fr 1fr; gap:25px; }
-  .selected-work { padding-top:58px; }
+  .selected-work, .home-feedback { padding-top:58px; }
   .portfolio-section-heading { align-items:flex-start; flex-direction:column; gap:8px; }
   .featured-projects { grid-template-columns:1fr; gap:32px; }
   .project-0 { grid-column:auto; }

@@ -7,14 +7,17 @@ import { RELATIONSHIP_LABEL, listPublished, type PublicEntry } from "@/lib/feedb
 import { cn } from "@/lib/utils";
 
 /**
- * Published feedback, read from the database at request time.
+ * Published feedback: only entries the owner approved AND the person consented to
+ * publish. The store's query enforces both, so nothing here has to remember to.
  *
- * Only entries the owner approved AND the person consented to publish; the query in
- * the store enforces both, so nothing here has to remember to.
+ * Two ways to render, chosen by `live`:
  *
- * `connection()` keeps this out of the build. Without it Next would try to run the
- * query while prerendering, which fails on a build machine with no database (CI) and
- * would freeze whatever was approved at deploy time into the page on one that has one.
+ *   · live (/feedback): read on every request via `connection()`, so the page is
+ *     always current and never needs a database at build time.
+ *   · built ahead (home, services): read when the page is built and kept, so those
+ *     pages stay static and fast. The admin actions call `revalidatePath` on them, so
+ *     approving or unpublishing rebuilds them on the next visit. With no database at
+ *     build time (CI) the query returns nothing and the section is simply absent.
  *
  * **Renders nothing while the list is empty**, the same rule the rest of the site
  * follows: a wall with no feedback is not a wall of placeholders. There are no sample
@@ -23,19 +26,26 @@ import { cn } from "@/lib/utils";
 export async function FeedbackWall({
   className,
   emptyNote = false,
-  heading = true,
+  header,
+  limit,
+  live = false,
 }: {
   className?: string;
   /** Show a one-line explanation instead of nothing when the list is empty. */
   emptyNote?: boolean;
   /**
-   * The wall's own section heading. Off on /feedback, where the page title and intro
-   * directly above already say it; on for any page that embeds the wall bare.
+   * The section heading. Omitted: the standard inner-page heading. `null`: none, as on
+   * /feedback where the page title directly above already says it. Anything else: that,
+   * as on the home page, whose sections have their own heading style.
    */
-  heading?: boolean;
+  header?: React.ReactNode;
+  /** Show only the newest few, as a teaser linking to the full page. */
+  limit?: number;
+  live?: boolean;
 }) {
-  await connection();
-  const entries = await listPublished().catch(() => [] as PublicEntry[]);
+  if (live) await connection();
+  const all = await listPublished().catch(() => [] as PublicEntry[]);
+  const entries = limit ? all.slice(0, limit) : all;
   if (entries.length === 0) {
     return emptyNote ? (
       <p className={cn("max-w-read text-sm leading-relaxed text-faint", className)}>
@@ -46,17 +56,23 @@ export async function FeedbackWall({
     ) : null;
   }
 
-  return (
-    <section className={cn(heading && "border-t border-border pt-12", className)} data-testid="feedback-wall">
-{heading && (
+  const heading =
+    header === undefined ? (
       <SectionHeader
         eyebrow="feedback"
         title="What people I have worked with say"
         description="From clients, former employers and colleagues, each sent through a personal link and published with their permission, unedited beyond trimming for length."
+        className="mb-10"
       />
-      )}
+    ) : (
+      header
+    );
 
-      <Stagger className={cn("grid gap-4 sm:grid-cols-2 lg:grid-cols-3", heading && "mt-10")}>
+  return (
+    <section className={className} data-testid="feedback-wall">
+      {heading}
+
+      <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {entries.map((item) => (
           <StaggerItem key={item.id}>
             <Surface as="figure" className="flex h-full flex-col p-6">

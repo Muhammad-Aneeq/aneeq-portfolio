@@ -32,7 +32,7 @@ export default function FeedbackPage() {
         appears, and nothing is changed beyond trimming for length.
       </p>
 
-      <FeedbackWall className="mt-14" emptyNote heading={false} />
+      <FeedbackWall className="mt-14" emptyNote header={null} live />
 
       <section className="mt-16 border-t border-border pt-10">
         <h2 className="text-xs text-faint uppercase" data-readout>

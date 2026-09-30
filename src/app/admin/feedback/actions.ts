@@ -23,9 +23,16 @@ import {
  * cookie throws before any database call is reached.
  */
 
+/**
+ * Rebuild every page that shows feedback. Home and services are built ahead of time
+ * for speed, so without this an approval would not appear on them until the next
+ * deploy.
+ */
 function refresh() {
   revalidatePath("/admin/feedback");
   revalidatePath("/feedback");
+  revalidatePath("/");
+  revalidatePath("/services");
 }
 
 const id = z.coerce.number().int().positive();
