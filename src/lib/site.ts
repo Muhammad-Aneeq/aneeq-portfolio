@@ -18,8 +18,12 @@ export const site = {
    */
   role: "AI Engineer",
   tagline: "AI engineering: agents, retrieval, and evaluation",
-  /** Swap freely — nothing depends on this value. See SPEC §10.1. */
-  url: "https://aneeqkhatri.com",
+  /**
+   * The live address: canonical URLs, JSON-LD, sitemap, robots and llms.txt all build
+   * on it. The Vercel domain until a custom one is connected; then change it here.
+   * See SPEC §10.1.
+   */
+  url: "https://aneeq-portfolio-lmud.vercel.app",
   location: "Karachi, Pakistan",
   availability: "Open to fully remote roles worldwide",
   email: "aneeqabdulsamad5761@gmail.com",
