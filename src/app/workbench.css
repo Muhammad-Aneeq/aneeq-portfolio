@@ -295,6 +295,22 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
   .metric-link:hover .h-px { width:2.5rem; }
   .interactive-surface:hover { transform:translateY(-2px); border-color:var(--border-strong); box-shadow:var(--shadow-lg); }
   .portfolio-text-link:hover, .workbench-link:hover { text-decoration-color:currentColor; }
+  /* The preview leans in and the arrow points the way: the card says "open me" without
+     a label. Slow on the image, quick on the arrow, so they read as two separate cues. */
+  .demo-card:hover .demo-frame > :is(video,img), .demo-card:focus-visible .demo-frame > :is(video,img) { transform:scale(1.04); }
+  .demo-card:hover .demo-cue svg, .portfolio-text-link:hover svg { transform:translate(2px,-2px); }
+}
+.demo-frame > :is(video,img) { transition:transform 700ms var(--ease-out-expo); }
+.demo-cue svg, .portfolio-text-link svg { transition:transform var(--duration-ui) var(--ease-out-expo); }
+
+/* Reading progress on case-study and lab pages: a hairline that fills as you read.
+   Absent where scroll timelines are unsupported, rather than stuck at empty. */
+.read-progress { display:none; }
+@media (prefers-reduced-motion:no-preference) {
+  @supports (animation-timeline:scroll()) {
+    .read-progress { display:block; position:fixed; inset:0 0 auto; height:2px; z-index:60; pointer-events:none;
+      background:var(--text); opacity:.55; transform-origin:left; animation:read-progress linear both; animation-timeline:scroll(root); }
+  }
 }
 .hero-capabilities { display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:20px; font-size:12px; color:var(--text); }
 .hero-capabilities li + li::before { content:"/"; color:var(--faint); margin-right:16px; }
@@ -318,13 +334,31 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
   */
   .portfolio-hero::before { animation:hero-wash var(--duration-hero) var(--ease-out-expo) both, hero-drift 38s var(--duration-hero) ease-in-out infinite alternate; }
   .home-contact::before, .contact-panel::before { animation:hero-drift 52s ease-in-out infinite alternate; }
+  /*
+    Scroll reveals, on every [data-reveal] block and section heading.
+
+    A rise plus an upward wipe, never a fade: "entrances never dim text" holds, because a
+    line is either fully drawn or clipped, never at half contrast. Driven by the
+    element's own view timeline, so it costs no JavaScript and runs off the main thread;
+    Firefox without the feature, reduced motion and no-JS all get the content in place.
+    Each block finishes within the first ~60% of its entry, so nothing a reader has
+    scrolled to is still settling (NN/g: motion must not make people wait to read).
+    Siblings in a [data-stagger] group finish a step apart, which reads as a cascade.
+  */
   @supports (animation-timeline:view()) {
-    :is(.work-case-studies,.career-proof) > [data-reveal] {
-      animation-name:card-arrive; animation-duration:auto; animation-fill-mode:both;
-      animation-timing-function:var(--ease-out-expo); animation-timeline:view(); animation-range:entry 0% entry 85%;
+    [data-reveal], .portfolio-section-heading {
+      animation-name:reveal-rise; animation-duration:auto; animation-fill-mode:both;
+      animation-timing-function:var(--ease-out-expo); animation-timeline:view(); animation-range:entry 0% entry 60%;
     }
-    :is(.work-case-studies,.career-proof) > [data-reveal]:nth-child(2) { animation-range:entry 0% entry 90%; }
-    :is(.work-case-studies,.career-proof) > [data-reveal]:nth-child(n+3) { animation-range:entry 0% entry 100%; }
+    [data-stagger] > [data-reveal]:nth-child(2) { animation-range:entry 6% entry 68%; }
+    [data-stagger] > [data-reveal]:nth-child(3) { animation-range:entry 12% entry 76%; }
+    [data-stagger] > [data-reveal]:nth-child(n+4) { animation-range:entry 18% entry 84%; }
+
+    /* The case-study trace draws itself: the spine grows as the steps scroll in, and
+       each step's dot lands as it arrives. The text beside them never moves. */
+    .trace { view-timeline:--trace block; }
+    .trace-spine { transform-origin:top; animation:spine-draw linear both; animation-timeline:--trace; animation-range:entry 30% cover 65%; }
+    .trace-dot { animation:dot-land var(--ease-out-expo) both; animation-timeline:view(); animation-range:entry 55% entry 100%; }
   }
   @supports (animation-timeline:scroll()) {
     .site-navigation { animation-name:nav-depth; animation-fill-mode:both; animation-duration:auto; animation-timeline:scroll(); animation-range:0px 120px; }
@@ -332,11 +366,16 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
 }
 @keyframes workbench-enter { from { transform:translateY(16px); } to { transform:none; } }
 @keyframes hero-wash { from { transform:translate3d(-12px,8px,0); opacity:.4; } to { transform:none; opacity:1; } }
-@keyframes card-arrive { from { transform:translateY(16px); } to { transform:none; } }
+/* The clip margin (-120px) clears the largest card shadow and the hover lift, since the
+   end state persists. */
+@keyframes reveal-rise { from { transform:translateY(28px); clip-path:inset(-120px -120px 55% -120px); } to { transform:none; clip-path:inset(-120px); } }
+@keyframes spine-draw { from { transform:scaleY(0); } }
+@keyframes dot-land { from { transform:scale(0); } 70% { transform:scale(1.25); } }
+@keyframes read-progress { from { transform:scaleX(0); } }
 @keyframes nav-depth { from { box-shadow:none; } to { box-shadow:var(--shadow-md); } }
 @keyframes hero-drift { from { transform:none; } to { transform:translate3d(-3%,2%,0) scale(1.09); } }
 @media (prefers-reduced-motion:reduce) {
-  .workbench, .portfolio-hero::before, .home-contact::before, .contact-panel::before, .site-navigation, [data-reveal] { animation:none; animation-timeline:none; transform:none; }
+  .workbench, .portfolio-hero::before, .home-contact::before, .contact-panel::before, .site-navigation, [data-reveal], .portfolio-section-heading, .trace-spine, .trace-dot { animation:none; animation-timeline:none; transform:none; clip-path:none; }
   .interactive-surface:hover, .portfolio-button:active, .site-contact:active { transform:none; }
 }
 

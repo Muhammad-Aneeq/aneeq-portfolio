@@ -63,7 +63,7 @@ export function ProjectCard({ study, className }: { study: CaseStudy; className?
 
         <p className="mt-6 inline-flex items-center gap-1.5 text-sm text-text">
           Read the case study
-          <ArrowUpRight className="size-4 text-faint transition-colors duration-200 group-hover:text-text" aria-hidden />
+          <ArrowUpRight className="size-4 text-faint transition-[color,translate] duration-200 group-hover:text-text motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5" aria-hidden />
         </p>
       </div>
 
@@ -75,7 +75,7 @@ export function ProjectCard({ study, className }: { study: CaseStudy; className?
           */}
           <div className="aspect-[16/10] overflow-hidden rounded-lg border border-border bg-surface-2 p-1.5 ring-1 ring-border/60 ring-inset">
             {study.loop ? (
-              <CardLoop loop={study.loop} className="rounded-md" />
+              <CardLoop loop={study.loop} className="rounded-md transition-[scale] duration-700 ease-out motion-safe:group-hover:scale-[1.03]" />
             ) : (
               <Image
                 src={study.shots[0].src}
@@ -83,7 +83,7 @@ export function ProjectCard({ study, className }: { study: CaseStudy; className?
                 height={study.shots[0].height}
                 alt={study.shots[0].alt}
                 sizes="(min-width: 1024px) 600px, 92vw"
-                className="h-full w-full rounded-md object-cover object-top"
+                className="h-full w-full rounded-md object-cover object-top transition-[scale] duration-700 ease-out motion-safe:group-hover:scale-[1.03]"
               />
             )}
           </div>

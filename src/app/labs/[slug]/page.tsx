@@ -44,6 +44,8 @@ export default async function LabPage({ params }: { params: Promise<{ slug: stri
       measure, via the editorial two-column rhythm rather than by squeezing everything.
     */
     <Container className="inner-page py-16 sm:py-20">
+      {/* Fills as the page is read: a CSS scroll timeline, see .read-progress. */}
+      <div className="read-progress" aria-hidden />
       <div className="flex flex-wrap items-center justify-between gap-4">
         <BackLink fallbackHref="/labs">Back</BackLink>
         {/*

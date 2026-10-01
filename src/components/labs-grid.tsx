@@ -154,7 +154,7 @@ export function LabsGrid({ labs }: { labs: Lab[] }) {
               <div className="aspect-[16/10] border-b border-border bg-surface-2 p-2">
               <div className="h-full overflow-hidden rounded-md ring-1 ring-border">
                 {lab.loop ? (
-                  <CardLoop loop={lab.loop} className="object-[center_38%]" />
+                  <CardLoop loop={lab.loop} className="object-[center_38%] transition-[scale] duration-700 ease-out motion-safe:group-hover:scale-[1.04]" />
                 ) : lab.walkthrough && !lab.shots[0] ? (
                   // Recorded but never screenshotted: the walkthrough's poster is the
                   // frame a reader would have seen anyway, so it stands in rather than
@@ -165,7 +165,7 @@ export function LabsGrid({ labs }: { labs: Lab[] }) {
                     src={lab.walkthrough.poster}
                     alt=""
                     loading={i === 0 ? "eager" : "lazy"}
-                    className="h-full w-full object-cover object-[center_38%]"
+                    className="h-full w-full object-cover object-[center_38%] transition-[scale] duration-700 ease-out motion-safe:group-hover:scale-[1.04]"
                   />
                 ) : (
                   <Image
@@ -179,7 +179,7 @@ export function LabsGrid({ labs }: { labs: Lab[] }) {
                     priority={i === 0}
                     loading={i === 0 ? "eager" : "lazy"}
                     sizes="(min-width: 1024px) 600px, (min-width: 640px) 50vw, 96vw"
-                    className="h-full w-full object-cover object-[center_38%]"
+                    className="h-full w-full object-cover object-[center_38%] transition-[scale] duration-700 ease-out motion-safe:group-hover:scale-[1.04]"
                   />
                 )}
               </div>
@@ -194,7 +194,7 @@ export function LabsGrid({ labs }: { labs: Lab[] }) {
                     </Link>
                   </h2>
                   <ArrowUpRight
-                    className="size-4 shrink-0 text-faint transition-colors duration-200 group-hover:text-text"
+                    className="size-4 shrink-0 text-faint transition-[color,translate] duration-200 group-hover:text-text motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5"
                     aria-hidden
                   />
                 </div>

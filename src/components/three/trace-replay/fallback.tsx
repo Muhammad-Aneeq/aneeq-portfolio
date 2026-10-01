@@ -18,17 +18,17 @@ export function TraceFallback({
   className?: string;
 }) {
   return (
-    <ol className={cn("relative", className)}>
+    <ol className={cn("trace relative", className)}>
       {/* The spine. Inset so it threads the dots rather than sitting behind the text. */}
       <span
-        className="absolute top-2 bottom-2 left-[7px] w-px bg-border"
+        className="trace-spine absolute top-2 bottom-2 left-[7px] w-px bg-border"
         aria-hidden
       />
 
       {stations.map((station, i) => (
         <li key={station.id} className="relative flex gap-5 pb-8 last:pb-0">
           <span
-            className="relative z-10 mt-1.5 size-[15px] shrink-0 rounded-full border-2 border-bg"
+            className="trace-dot relative z-10 mt-1.5 size-[15px] shrink-0 rounded-full border-2 border-bg"
             style={{ backgroundColor: KIND_VAR[station.kind] }}
             aria-hidden
           />
