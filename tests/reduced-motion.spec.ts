@@ -9,9 +9,12 @@ test.describe("reduced motion", () => {
     await assertUnhidden(page, "h1, .career-proof, .featured-project, #contact, .workbench");
     expect(await page.locator(".workbench").evaluate(el => getComputedStyle(el).animationName)).toBe("none");
   });
-  test("finance renders the labelled diagram instead of a canvas", async ({ page }) => {
+  test("finance shows the reconciliation finished, not mid-replay", async ({ page }) => {
     await page.goto("/finance");
-    await expect(page.getByRole("img", { name: /stream of ledger postings/i })).toBeVisible();
+    await expect(page.getByRole("img", { name: /bank reconciliation/i })).toBeVisible();
+    await expect(page.locator(".rr-msg-done")).toBeVisible();
+    await expect(page.locator(".rr-count")).toHaveCSS("--rr-n", "5");
+    expect(await page.evaluate(() => document.getAnimations().filter(a => (a as CSSAnimation).animationName?.startsWith("rr-")).length)).toBe(0);
     await expect(page.locator("canvas")).toHaveCount(0);
   });
   test("the case study trace remains a readable timeline", async ({ page }) => {

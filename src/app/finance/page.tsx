@@ -1,9 +1,9 @@
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { StreamHero } from "@/components/three/stream";
 import { experience } from "@/content/resume";
 import { Container } from "@/components/layout/container";
+import { ReconReplay } from "@/components/finance/recon-replay";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -151,7 +151,7 @@ export default function FinancePage() {
           be proven after the fact, humans gating every commit, and refusal instead of guessing
           when the evidence is thin. I reconciled real books before I automated any of it.
         </p>
-        </div><StreamHero className="finance-scene min-w-0" />
+        </div><ReconReplay className="finance-scene" />
       </Container>
 
       {/* b · The bar, immediately after the hero.

@@ -1,0 +1,96 @@
+/*
+  The reconciliation replay on /finance. Static layout only: the timeline's keyframes are
+  generated in recon-replay.tsx. Every rule here describes the finished state, which is
+  what reduced motion, no JavaScript and screenshots show.
+*/
+
+/* Registered so the matched count steps through whole numbers as it animates. */
+@property --rr-n { syntax:"<integer>"; inherits:false; initial-value:5; }
+
+.rr-figure { width:100%; min-width:0; }
+.rr {
+  --rr-row:46px;
+  position:relative; container-type:inline-size;
+  padding:18px 18px 16px; border:1px solid var(--border); border-radius:14px;
+  background-color:var(--surface);
+  background-image:linear-gradient(180deg,var(--surface-lift),transparent 40%);
+  box-shadow:inset 0 1px var(--edge),var(--shadow-lg);
+  font-variant-numeric:tabular-nums;
+}
+
+.rr-head { display:flex; align-items:center; justify-content:space-between; gap:12px; padding-bottom:14px; border-bottom:1px solid var(--border); }
+.rr-title { display:flex; align-items:center; gap:9px; font-size:.8125rem; font-weight:600; color:var(--text); min-width:0; }
+.rr-live { width:7px; height:7px; border-radius:50%; background:var(--pass); flex:none; box-shadow:0 0 0 3px var(--pass-dim); }
+/* The counter is reset on the element that animates --rr-n; the pseudo-element only
+   reads it, since a registered property that does not inherit never reaches ::before. */
+.rr-count { font-size:.75rem; color:var(--muted); white-space:nowrap; counter-reset:rr var(--rr-n); }
+.rr-count::before { content:counter(rr) " / 5 matched"; }
+
+.rr-cols { padding-top:12px; padding-bottom:6px; height:auto; font-size:.6875rem; text-transform:uppercase; letter-spacing:.06em; color:var(--faint); }
+.rr-cols span:first-child { grid-column:1/4; }
+.rr-cols span:last-child { grid-column:5/7; }
+
+.rr-rows { position:relative; }
+.rr-row, .rr-cols {
+  position:relative; display:grid; align-items:center; column-gap:12px;
+  grid-template-columns:40px minmax(0,1fr) auto 56px auto minmax(0,1fr);
+  padding:0 10px; border-radius:8px; font-size:.8125rem;
+}
+.rr-row { height:var(--rr-row); }
+.rr-row + .rr-row { box-shadow:inset 0 1px var(--border); }
+.rr-date { font-size:.6875rem; color:var(--faint); }
+.rr-payee, .rr-acct { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.rr-payee { color:var(--text); }
+.rr-acct { color:var(--muted); }
+.rr-amt { color:var(--text); text-align:right; white-space:nowrap; }
+
+/* The ledger amount that changes: both values share one cell, only one is ever visible. */
+.rr-ledger { display:grid; }
+.rr-ledger > span { grid-area:1/1; }
+.rr-amt-wrong { visibility:hidden; color:var(--gate); text-decoration:line-through; text-decoration-thickness:1px; }
+
+/* The match: a line drawn from the bank amount to the ledger amount, the state on top. */
+.rr-match { position:relative; display:grid; place-items:center; height:100%; }
+.rr-link { position:absolute; left:2px; right:2px; top:50%; height:2px; margin-top:-1px; border-radius:2px; background-color:var(--pass); transform-origin:left center; }
+.rr-st {
+  grid-area:1/1; position:relative; display:grid; place-items:center;
+  width:22px; height:22px; border-radius:50%; font-size:.75rem; line-height:1;
+  background:var(--surface); border:1px solid var(--border);
+}
+.rr-st-pending { visibility:hidden; color:var(--faint); }
+.rr-st-ok { color:var(--pass); border-color:var(--pass); }
+.rr-st-held { visibility:hidden; color:var(--gate); border-color:var(--gate); }
+
+.rr-stamp {
+  /* Straddles the row's top edge, clear of the account name it would otherwise cover. */
+  position:absolute; right:12px; top:-8px; z-index:2; padding:1px 6px;
+  border:1.5px solid var(--pass); border-radius:5px; background:var(--surface);
+  color:var(--pass); font-size:.625rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  transform:rotate(-8deg); pointer-events:none;
+}
+
+/* The agent's cursor. Hidden at rest: the finished state has nothing left to look at. */
+.rr-scan {
+  position:absolute; left:0; right:0; top:0; height:var(--rr-row); z-index:1;
+  border:1.5px solid var(--border-strong); border-radius:8px; visibility:hidden; pointer-events:none;
+}
+
+/* The status line. All four messages share one cell, so the height never jumps. */
+.rr-msg { display:grid; margin-top:12px; padding:12px 10px 0; border-top:1px solid var(--border); font-size:.75rem; line-height:1.5; min-height:calc(1.5em * 2 + 12px); }
+.rr-msg > span { grid-area:1/1; visibility:hidden; color:var(--muted); }
+.rr-msg > .rr-msg-held { color:var(--gate); }
+.rr-msg > .rr-msg-done { visibility:visible; color:var(--pass); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .rr-live { animation:rr-live 1.6s ease-in-out infinite; }
+  @keyframes rr-live { 50% { box-shadow:0 0 0 6px transparent; } }
+}
+
+/* Narrow: drop the date and the account names, keep the amounts and the match. */
+@container (max-width: 460px) {
+  .rr-row, .rr-cols { grid-template-columns:minmax(0,1fr) auto 44px auto; column-gap:8px; padding-left:6px; padding-right:6px; }
+  .rr-date, .rr-acct { display:none; }
+  .rr-cols span:first-child { grid-column:1/3; }
+  .rr-cols span:last-child { grid-column:4/5; text-align:right; }
+  .rr-stamp { right:auto; left:6px; }
+}

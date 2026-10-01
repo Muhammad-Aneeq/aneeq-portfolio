@@ -28,11 +28,11 @@ test.describe("no JavaScript", () => {
     await page.goto("/work/closeops");
     await expect(page.getByRole("heading", { name: /what this system cannot do/i })).toBeVisible();
   });
-  test("finance renders the labelled SVG and explains its simulated approval", async ({ page }) => {
+  test("finance renders the reconciliation and explains its simulated approval", async ({ page }) => {
     await page.goto("/finance");
-    const still = page.getByRole("img", { name: /stream of ledger postings/i });
-    await expect(still).toBeVisible();
-    await expect(still).toHaveAccessibleName(/stopped at the gate/i);
+    const replay = page.getByRole("img", { name: /bank reconciliation/i });
+    await expect(replay).toBeVisible();
+    await expect(replay).toHaveAccessibleName(/holds it for a person/i);
     await expect(page.locator("canvas")).toHaveCount(0);
     await expect(page.getByText("awaiting a person")).toBeVisible();
     await expect(page.getByText(/the approval step is simulated/i)).toBeVisible();

@@ -433,7 +433,7 @@ test.describe("functional", () => {
     await expect(page.locator(".workbench-detail")).toContainText("Give each agent a clear job.");
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/finance");
-    await expect(page.getByRole("img", { name: /stream of ledger postings/i })).toBeVisible();
+    await expect(page.getByRole("img", { name: /bank reconciliation/i })).toBeVisible();
   });
 
   test("404 handling returns a real not-found page", async ({ page }) => {

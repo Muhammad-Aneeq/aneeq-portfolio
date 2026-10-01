@@ -31,12 +31,10 @@ for (const scheme of ["light", "dark"] as const) {
     }
   });
 
-  test(`${scheme}: finance theme bridge and SVG text contrast`, async ({ page }) => {
+  test(`${scheme}: finance replay text holds contrast in both themes`, async ({ page }) => {
     await page.emulateMedia({ colorScheme: scheme, reducedMotion: "reduce" });
     await page.goto("/finance");
-    const expected = scheme === "light" ? "#9aa5b6" : "#4d5a6e";
-    await expect(page.locator(".finance-scene")).toHaveAttribute("data-scene-neutral", expected);
-    const contrasts = await page.locator('.finance-scene svg[role="img"] text').evaluateAll(elements => {
+    const measure = () => page.locator(".rr").evaluate(root => {
       const canvas = document.createElement("canvas");
       canvas.width = canvas.height = 1;
       const context = canvas.getContext("2d")!;
@@ -47,16 +45,22 @@ for (const scheme of ["light", "dark"] as const) {
         });
         return .2126 * rgb[0] + .7152 * rgb[1] + .0722 * rgb[2];
       };
-      const bg = luminance(getComputedStyle(document.documentElement).getPropertyValue("--bg"));
-      return elements.map(el => {
-        const fg = luminance(getComputedStyle(el).fill);
-        return { text: el.textContent, ratio: (Math.max(fg, bg) + .05) / (Math.min(fg, bg) + .05) };
-      });
+      const bg = luminance(getComputedStyle(root).backgroundColor);
+      // Every visible leaf that carries text, including the ::before counter's host.
+      return [...root.querySelectorAll<HTMLElement>("span")]
+        .filter(el => el.children.length === 0 && getComputedStyle(el).visibility === "visible" && getComputedStyle(el).display !== "none")
+        .filter(el => (el.textContent ?? "").trim() || el.classList.contains("rr-count"))
+        .map(el => {
+          const fg = luminance(getComputedStyle(el).color);
+          return { text: el.textContent || el.className, ratio: (Math.max(fg, bg) + .05) / (Math.min(fg, bg) + .05) };
+        });
     });
-    expect(contrasts.length).toBeGreaterThan(0);
-    for (const item of contrasts) expect(item.ratio, item.text ?? "SVG label").toBeGreaterThanOrEqual(4.5);
-    await page.getByRole("button", { name: /Switch to .* theme/ }).click();
-    await expect(page.locator(".finance-scene")).toHaveAttribute("data-scene-neutral", scheme === "light" ? "#4d5a6e" : "#9aa5b6");
+    for (const pass of [1, 2]) {
+      const contrasts = await measure();
+      expect(contrasts.length).toBeGreaterThan(10);
+      for (const item of contrasts) expect(item.ratio, `${item.text} (pass ${pass})`).toBeGreaterThanOrEqual(4.5);
+      if (pass === 1) await page.getByRole("button", { name: /Switch to .* theme/ }).click();
+    }
   });
 }
 

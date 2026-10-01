@@ -2,7 +2,7 @@
  * Bundle-size gate (SPEC §8).
  *
  *   home route, excluding the lazy 3D chunk   < 200 KB gzipped
- *   the 3D chunk itself                       < 250 KB gzipped
+ *   the 3D chunk itself, if any route has one < 250 KB gzipped
  *
  * "Home route JS" is derived from the chunks the prerendered home page actually
  * references, which is the honest definition: the 3D scene is dynamically imported
@@ -125,8 +125,9 @@ if (threeChunks.length > 0) {
   if (financeLeaks.length) failed = true;
   console.log(`  ${financeLeaks.length ? "FAIL" : "PASS"}  finance 3D lazy    absent from initial finance document: ${financeLeaks.length === 0}`);
 } else {
-  failed = true;
-  console.log("  FAIL  no 3D chunk found; the finance scene must be built");
+  // The finance hero is now a CSS reconciliation replay, so no route ships a 3D engine.
+  // The checks above stay in place for the day a 3D scene returns.
+  console.log("  PASS  3D payload        none shipped (no route uses three.js)");
 }
 
 const fonts = walk(join(NEXT, "static", "media")).filter(f => f.endsWith(".woff2") && html.includes(f.split(/[\\/]/).pop()!));
