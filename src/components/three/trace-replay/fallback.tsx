@@ -26,7 +26,7 @@ export function TraceFallback({
       />
 
       {stations.map((station, i) => (
-        <li key={station.id} className="relative flex gap-5 pb-8 last:pb-0">
+        <li key={station.id} className="trace-step relative flex gap-5 pb-8 last:pb-0">
           <span
             className="trace-dot relative z-10 mt-1.5 size-[15px] shrink-0 rounded-full border-2 border-bg"
             style={{ backgroundColor: KIND_VAR[station.kind] }}

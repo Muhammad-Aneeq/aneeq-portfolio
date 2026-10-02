@@ -56,8 +56,6 @@ export default async function CaseStudyPage({
 
   return (
     <article>
-      {/* Fills as the page is read: a CSS scroll timeline, see .read-progress. */}
-      <div className="read-progress" aria-hidden />
       <CaseStudyJsonLd study={study} />
       <Container className="py-16 sm:py-20">
         {/*

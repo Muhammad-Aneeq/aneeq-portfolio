@@ -171,7 +171,7 @@ export default function FinancePage() {
             <StaggerItem key={demand.href + demand.principle}>
               <Surface
                 interactive
-                className="group relative flex flex-col gap-3 p-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8"
+                className="demand-step group relative flex flex-col gap-3 p-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8"
               >
                 <p className="max-w-read leading-relaxed text-text">{demand.principle}</p>
                 <p className="inline-flex shrink-0 items-center gap-2 text-sm text-muted transition-colors duration-200 group-hover:text-text">
