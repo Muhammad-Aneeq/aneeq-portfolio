@@ -77,8 +77,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             rather than the whole site reloading. Timings and the reduced-motion
             switch-off are in globals.css.
           */}
-          {/* Reading progress on every page: a CSS scroll timeline, see .read-progress. */}
-          <div className="read-progress" aria-hidden><span /></div>
           <ViewTransition default="page">
             <main id="main">{children}</main>
           </ViewTransition>

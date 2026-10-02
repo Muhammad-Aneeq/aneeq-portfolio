@@ -304,19 +304,23 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
 .demo-cue svg, .portfolio-text-link svg { transition:transform var(--duration-ui) var(--ease-out-expo); }
 
 /*
-  Reading progress, on every page. The bar is full width and painted with the whole
-  accent-to-teal gradient; the scroll reveals it left to right with clip-path, so the
-  colour travels with the reader instead of stretching. A small glowing head marks the
-  leading edge, like a trace being written. Absent where scroll timelines are
-  unsupported or motion is reduced, rather than stuck at empty.
+  Reading progress, on every page, on the sticky header's bottom edge: where the eye
+  already is while scrolling. The first version sat as a 3px line on the window's top
+  edge and was easy to miss.
+
+  The bar is full width and painted with the whole accent-to-teal gradient; the scroll
+  reveals it left to right with clip-path, so the colour travels with the reader instead
+  of stretching. A bright glowing head marks the leading edge. Absent where scroll
+  timelines are unsupported or motion is reduced, rather than stuck at empty.
 */
 .read-progress { display:none; }
 @media (prefers-reduced-motion:no-preference) {
   @supports (animation-timeline:scroll()) {
-    .read-progress { display:block; position:fixed; inset:0 0 auto; height:3px; z-index:60; pointer-events:none; container-type:inline-size; overflow:hidden;
+    .read-progress { display:block; position:absolute; left:0; right:0; bottom:-2px; height:4px; pointer-events:none; container-type:inline-size;
       background:linear-gradient(90deg,var(--accent),var(--pass)); animation:read-progress linear both; animation-timeline:scroll(root); }
-    .read-progress > span { position:absolute; top:0; left:0; width:14px; height:3px; margin-left:-14px; border-radius:3px;
-      background:#fff; box-shadow:0 0 10px 2px var(--pass); animation:read-head linear both; animation-timeline:scroll(root); }
+    .read-progress > span { position:absolute; top:-3px; left:0; width:10px; height:10px; margin-left:-10px; border-radius:50%;
+      background:var(--pass); box-shadow:0 0 0 3px color-mix(in oklab,var(--pass) 35%,transparent),0 0 14px 4px color-mix(in oklab,var(--pass) 55%,transparent);
+      animation:read-head linear both; animation-timeline:scroll(root); }
   }
 }
 .hero-capabilities { display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:20px; font-size:12px; color:var(--text); }
@@ -419,7 +423,7 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
 /* A narrow band at the middle of the screen, so one step has the floor at a time. */
 @keyframes step-focus { 0%,43% { opacity:0; } 48%,54% { opacity:1; } 59%,100% { opacity:0; } }
 @keyframes dot-focus { 0%,43% { box-shadow:0 0 0 0 transparent; } 48%,54% { box-shadow:0 0 0 5px color-mix(in oklab,var(--accent) 35%,transparent); } 59%,100% { box-shadow:0 0 0 0 transparent; } }
-@keyframes read-progress { from { clip-path:inset(0 100% 0 0); } to { clip-path:inset(0 0 0 0); } }
+@keyframes read-progress { from { clip-path:inset(-10px 100% -10px 0); } to { clip-path:inset(-10px -10px -10px 0); } }
 @keyframes read-head { from { transform:translateX(0); } to { transform:translateX(100cqw); } }
 @keyframes nav-depth { from { box-shadow:none; } to { box-shadow:var(--shadow-md); } }
 @keyframes hero-drift { from { transform:none; } to { transform:translate3d(-3%,2%,0) scale(1.09); } }
