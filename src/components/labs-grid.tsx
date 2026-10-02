@@ -122,10 +122,11 @@ export function LabsGrid({ labs }: { labs: Lab[] }) {
         in a row stretch to match rather than being cut to a preset. Nine captured labs
         fill three rows of three exactly.
       */}
-      <div className={cn("grid gap-6 sm:grid-cols-2 lg:grid-cols-3", labs.length > 2 ? "mt-10" : "mt-0")}>
+      <div data-stagger className={cn("grid gap-6 sm:grid-cols-2 lg:grid-cols-3", labs.length > 2 ? "mt-10" : "mt-0")}>
         {visible.map((lab, i) => (
           <Surface
             key={lab.slug}
+            data-reveal
             interactive
             as="article"
             className="group relative flex h-full flex-col overflow-hidden"

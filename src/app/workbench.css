@@ -359,6 +359,20 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
     [data-stagger] > [data-reveal]:nth-child(2) { animation-range:entry 10% cover 40%; }
     [data-stagger] > [data-reveal]:nth-child(3) { animation-range:entry 10% cover 45%; }
     [data-stagger] > [data-reveal]:nth-child(n+4) { animation-range:entry 10% cover 50%; }
+    /* In a three-column grid the cascade runs across each row, not down the list. */
+    .grid[data-stagger] > [data-reveal]:nth-child(3n+1) { animation-range:entry 10% cover 35%; }
+    .grid[data-stagger] > [data-reveal]:nth-child(3n+2) { animation-range:entry 10% cover 40%; }
+    .grid[data-stagger] > [data-reveal]:nth-child(3n) { animation-range:entry 10% cover 45%; }
+
+    /*
+      Every other section heading on the site, so no page is left static (About, the lab
+      pages, the finance sidebar). Skipped inside a block that already reveals, or the
+      two rises would stack.
+    */
+    main h2:not(:is([data-reveal], .portfolio-section-heading, .engineering-section > div:first-child, .home-contact, .workbench, .rr) h2) {
+      animation-name:reveal-rise; animation-duration:auto; animation-fill-mode:both;
+      animation-timing-function:ease-out; animation-timeline:view(); animation-range:entry 10% cover 35%;
+    }
 
     /* The case-study trace draws itself: the spine grows as the steps scroll in, and
        each step's dot lands as it arrives. The text beside them never moves. */
@@ -382,7 +396,7 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
 @keyframes nav-depth { from { box-shadow:none; } to { box-shadow:var(--shadow-md); } }
 @keyframes hero-drift { from { transform:none; } to { transform:translate3d(-3%,2%,0) scale(1.09); } }
 @media (prefers-reduced-motion:reduce) {
-  .workbench, .portfolio-hero::before, .home-contact::before, .contact-panel::before, .site-navigation, [data-reveal], .portfolio-section-heading, .engineering-section > div:first-child, .home-contact, .trace-spine, .trace-dot { animation:none; animation-timeline:none; transform:none; clip-path:none; }
+  .workbench, .portfolio-hero::before, .home-contact::before, .contact-panel::before, .site-navigation, [data-reveal], .portfolio-section-heading, .engineering-section > div:first-child, .home-contact, main h2, .trace-spine, .trace-dot { animation:none; animation-timeline:none; transform:none; clip-path:none; }
   .interactive-surface:hover, .portfolio-button:active, .site-contact:active { transform:none; }
 }
 
