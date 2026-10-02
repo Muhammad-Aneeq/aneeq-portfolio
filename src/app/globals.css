@@ -11,8 +11,10 @@
   --glow-a:rgb(169 186 255 / .13); --glow-b:rgb(169 186 255 / .06);
   /* The two decorative washes (hero headline, featured band): strong enough to be seen,
      with a teal second hue so they read as a gradient rather than a grey haze. */
-  /* The hero aurora: the accent and an indigo beside it. Not teal: that colour means passed. */
+  /* The hero backdrop: an accent wash, and the agent network's node, link and pulse colours.
+     Never teal: that colour means passed. */
   --aurora-a:#8fa6ff; --aurora-b:#9b7bff;
+  --net-node:#d5ddff; --net-line:#8fa6ff; --net-pulse:#ffffff;
   --glow-hero:rgb(169 186 255 / .17); --glow-band:rgb(169 186 255 / .2); --glow-teal:oklch(0.82 0.16 175 / .09);
   /* Derived, so one definition serves both themes: each resolves against whichever
      --surface, --bg and --accent the theme sets on the same element. */
@@ -38,6 +40,7 @@
   --shadow-lg:0 1px 2px rgb(24 40 80 / .04), 0 12px 28px rgb(24 40 80 / .07), 0 28px 60px rgb(24 40 80 / .05);
   --glow-a:rgb(51 80 207 / .07); --glow-b:rgb(51 80 207 / .03);
   --aurora-a:#3d5bd6; --aurora-b:#7a52e0;
+  --net-node:#3350cf; --net-line:#5b74e0; --net-pulse:#3350cf;
   --glow-hero:rgb(51 80 207 / .1); --glow-band:rgb(51 80 207 / .12); --glow-teal:oklch(0.62 0.13 175 / .08);
   --edge:rgb(255 255 255 / .8);
   --preview-mat:#e2e7f0; --preview-mat-alt:#dce3f1;

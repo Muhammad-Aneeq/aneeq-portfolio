@@ -3,10 +3,12 @@
 import { useEffect, useRef } from "react";
 
 /**
- * The home hero's aurora. Server-rendered as a soft CSS gradient (the fallback, and what
- * shows with no JavaScript or no WebGL); the shader is imported after the page has
- * painted and fades in over it. Colours come from --aurora-a / --aurora-b on the live
- * theme, re-read when the theme flips.
+ * The home hero's backdrop: a live agent network (network-canvas.ts) over a soft accent
+ * wash. Server-rendered as the wash alone, which is the fallback for no JavaScript; the
+ * canvas is imported after first paint and fades in over it. Colours come from the live
+ * theme's tokens and are re-read when the theme flips.
+ *
+ * It replaced a WebGL aurora that read as a muddy purple haze on the dark theme.
  */
 export function Aurora() {
   const wrap = useRef<HTMLDivElement>(null);
@@ -19,37 +21,30 @@ export function Aurora() {
     let stopped = false;
     let handle: { redraw: () => void; stop: () => void } | null = null;
 
-    // Theme tokens are authored in oklch; a 1px canvas turns them into sRGB floats.
-    const probe = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
-    const read = (token: string): [number, number, number] => {
-      if (!probe) return [0.6, 0.65, 1];
-      probe.clearRect(0, 0, 1, 1);
-      probe.fillStyle = getComputedStyle(document.documentElement).getPropertyValue(token).trim() || "#a9baff";
-      probe.fillRect(0, 0, 1, 1);
-      const [r, g, b] = probe.getImageData(0, 0, 1, 1).data;
-      return [r / 255, g / 255, b / 255];
+    const read = () => {
+      const s = getComputedStyle(document.documentElement);
+      const light = document.documentElement.classList.contains("light");
+      return {
+        node: s.getPropertyValue("--net-node").trim() || "#c9d4ff",
+        line: s.getPropertyValue("--net-line").trim() || "#8fa6ff",
+        pulse: s.getPropertyValue("--net-pulse").trim() || "#ffffff",
+        strength: light ? 0.75 : 1,
+      };
     };
-    let colours = { a: read("--aurora-a"), b: read("--aurora-b"), strength: document.documentElement.classList.contains("light") ? 0.55 : 0.85 };
-    const mo = new MutationObserver(() => {
-      colours = { a: read("--aurora-a"), b: read("--aurora-b"), strength: document.documentElement.classList.contains("light") ? 0.55 : 0.85 };
-      handle?.redraw();
-    });
+    let colours = read();
+    const mo = new MutationObserver(() => { colours = read(); handle?.redraw(); });
     mo.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
 
     const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 300));
     idle(async () => {
-      const { startAurora } = await import("./aurora-gl");
+      const { startNetwork } = await import("./network-canvas");
       if (stopped) return;
-      handle = startAurora(el, () => colours, still);
+      handle = startNetwork(el, () => colours, still);
       if (handle) box.dataset.live = "";
     });
 
-    return () => {
-      stopped = true;
-      mo.disconnect();
-      handle?.stop();
-    };
+    return () => { stopped = true; mo.disconnect(); handle?.stop(); };
   }, []);
 
   return (
