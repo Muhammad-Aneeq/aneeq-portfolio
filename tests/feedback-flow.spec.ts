@@ -55,11 +55,28 @@ async function createInvite(page: Page, label: string, relationship = "client") 
   return new URL(link).pathname;
 }
 
-test.afterAll(async () => {
+/*
+  Deleting the rows is not enough. An approval in this file rebuilds the prerendered home
+  and services pages with the test quote on them, and a direct SQL delete does not tell
+  Next to rebuild them again, so "E2E Sarah Client" stayed on the local build's home page
+  after every run. So: delete the rows, then make one admin action that refreshes every
+  feedback page (creating an invite does), against a database that no longer holds the
+  test entries, and check the home page is clean.
+*/
+test.afterAll(async ({ browser }) => {
   if (!DB) return;
   const sql = neon(DB);
   await sql`DELETE FROM feedback_entries WHERE invite_id IN (SELECT id FROM feedback_invites WHERE label LIKE ${RUN + "%"})`;
   await sql`DELETE FROM feedback_invites WHERE label LIKE ${RUN + "%"}`;
+
+  const context = await browser.newContext();
+  await signIn(context);
+  const page = await context.newPage();
+  await createInvite(page, `${RUN} cache refresh`);
+  await sql`DELETE FROM feedback_invites WHERE label LIKE ${RUN + "%"}`;
+  await page.goto("/");
+  await expect(page.locator("main")).not.toContainText(RUN);
+  await context.close();
 });
 
 test.describe("admin access", () => {
