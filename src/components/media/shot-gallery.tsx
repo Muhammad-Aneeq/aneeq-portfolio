@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { shotSchema } from "@/content/schema";
 import type { z } from "zod";
+import { CarouselControls } from "@/components/media/carousel-controls";
 import { cn } from "@/lib/utils";
 
 type Shot = z.infer<typeof shotSchema>;
@@ -50,9 +51,8 @@ export function ShotGallery({
   if (variant === "slider" && shots.length > 1) {
     return (
       <div className={className}>
-        <p className="text-xs text-faint uppercase" data-readout>
-          {shots.length} screens · scroll to see them all
-        </p>
+        {/* Buttons and an n / N readout on top of the scroll-snap track below. */}
+        <CarouselControls count={shots.length} label="screens">
 
         {/*
           A CSS scroll-snap track, not a JavaScript carousel.
@@ -66,7 +66,7 @@ export function ShotGallery({
           role="group"
           aria-label={`${shots.length} screens`}
           tabIndex={0}
-          className="shot-slider mt-4 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-5"
+          className="shot-slider mt-4 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-5"
         >
           {shots.map((shot, i) => (
             <figure key={shot.src} className="w-full shrink-0 snap-start">
@@ -75,6 +75,7 @@ export function ShotGallery({
             </figure>
           ))}
         </div>
+        </CarouselControls>
       </div>
     );
   }

@@ -365,11 +365,14 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
       invisible. A plain ease-out over entry 10% to cover 35% spreads the movement over
       roughly half a screen of scrolling, so the arrival is actually seen.
     */
-    :is([data-reveal], .portfolio-section-heading, .engineering-section > div:first-child, .home-contact) {
+    :is([data-reveal], .portfolio-section-heading > div > *, .portfolio-section-heading > :not(div), .engineering-section > div:first-child, .home-contact) {
       animation-name:reveal-rise; animation-duration:auto; animation-fill-mode:both;
       animation-timing-function:ease-out; animation-timeline:view(); animation-range:entry 10% cover 35%;
     }
     [data-stagger] > [data-reveal]:nth-child(2) { animation-range:entry 10% cover 40%; }
+    /* Home section headings, step by step: the label, then the heading, then its links. */
+    .portfolio-section-heading > div > :nth-child(2) { animation-range:entry 10% cover 40%; }
+    .portfolio-section-heading > :not(div) { animation-range:entry 10% cover 46%; }
     [data-stagger] > [data-reveal]:nth-child(3) { animation-range:entry 10% cover 45%; }
     [data-stagger] > [data-reveal]:nth-child(n+4) { animation-range:entry 10% cover 50%; }
     /* In a three-column grid the cascade runs across each row, not down the list. */
@@ -430,10 +433,113 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
 @keyframes nav-depth { from { box-shadow:none; } to { box-shadow:var(--shadow-md); } }
 @keyframes hero-drift { from { transform:none; } to { transform:translate3d(-3%,2%,0) scale(1.09); } }
 @media (prefers-reduced-motion:reduce) {
-  .workbench, .portfolio-hero::before, .home-contact::before, .contact-panel::before, .site-navigation, [data-reveal], .portfolio-section-heading, .engineering-section > div:first-child, .home-contact, main h2, .trace-spine, .trace-dot, .trace-step::before, .demand-step::before { animation:none; animation-timeline:none; transform:none; clip-path:none; }
+  .workbench, .portfolio-hero::before, .home-contact::before, .contact-panel::before, .site-navigation, [data-reveal], .portfolio-section-heading > div > *, .portfolio-section-heading > :not(div), .engineering-section > div:first-child, .home-contact, main h2, .hero-intro > *, .hero-line, .trace-spine, .trace-dot, .trace-step::before, .demand-step::before { animation:none; animation-timeline:none; transform:none; clip-path:none; }
   .interactive-surface:hover, .portfolio-button:active, .site-contact:active { transform:none; }
 }
 
 /* Utility pages: the shell is page-width like everywhere else, but a form and a
    result panel have no business spanning 1248px. See docs/DESIGN-SYSTEM.md §4. */
 .contact-panel, .ask-panel-shell { max-width:var(--container-wide); }
+
+
+/* ===========================================================================
+   Hero aurora, headline build and shine, card spotlight, carousel controls.
+   =========================================================================== */
+
+/* Lets the aurora (and anything else) bleed to the window edge without ever creating
+   a horizontal scrollbar. `clip`, not `hidden`: no scroll container, so sticky works. */
+main { overflow-x:clip; }
+
+/*
+  The aurora sits behind the hero, full-bleed, running up under the translucent header.
+  Server-rendered as a soft CSS gradient; the WebGL canvas fades in over it once the
+  shader has loaded (data-live). The mask fades it out before the stats row.
+*/
+.hero-aurora {
+  position:absolute; z-index:-2; top:-140px; left:calc(50% - 50vw); width:100vw; height:min(980px, 115%);
+  pointer-events:none;
+  background:
+    radial-gradient(50% 45% at 30% 18%, color-mix(in oklab, var(--aurora-a) 22%, transparent), transparent 70%),
+    radial-gradient(42% 40% at 72% 10%, color-mix(in oklab, var(--aurora-b) 18%, transparent), transparent 70%);
+  -webkit-mask-image:linear-gradient(180deg,#000 55%,transparent 100%);
+  mask-image:linear-gradient(180deg,#000 55%,transparent 100%);
+}
+.hero-aurora canvas { display:block; width:100%; height:100%; opacity:0; transition:opacity 1.6s ease; }
+.hero-aurora[data-live] canvas { opacity:1; }
+.light .hero-aurora { opacity:.8; }
+
+/* The headline, line by line. */
+.hero-intro h1 .hero-line { display:block; }
+.hero-shine {
+  /* A gradient into the accent, with a slow highlight sweeping through it. */
+  background-image:
+    linear-gradient(100deg, transparent 35%, color-mix(in oklab, #fff 70%, transparent) 50%, transparent 65%),
+    linear-gradient(90deg, var(--text) 0%, var(--accent) 85%);
+  background-size:250% 100%, 100% 100%;
+  background-position:150% 0, 0 0;
+  background-repeat:no-repeat;
+  -webkit-background-clip:text; background-clip:text;
+  color:transparent;
+  padding-bottom:.08em; /* descenders stay inside the painted box */
+}
+.light .hero-shine { background-image:
+    linear-gradient(100deg, transparent 35%, color-mix(in oklab, #fff 85%, transparent) 50%, transparent 65%),
+    linear-gradient(90deg, var(--text) 0%, var(--accent) 85%); }
+@media (forced-colors:active) { .hero-shine { color:CanvasText; background:none; } }
+
+@media (prefers-reduced-motion:no-preference) {
+  /*
+    The hero builds in order on load: name, the three headline lines, then the rest.
+    Each piece rises out of a wipe, never a fade (entrances never dim text).
+  */
+  .hero-intro > *, .hero-intro h1 .hero-line { animation:hero-rise 760ms var(--ease-out-expo) both; }
+  .hero-intro h1 { animation:none; }
+  .hero-intro > :nth-child(1) { animation-delay:0ms; }
+  .hero-intro h1 .hero-line:nth-child(1) { animation-delay:90ms; }
+  .hero-intro h1 .hero-line:nth-child(2) { animation-delay:190ms; }
+  .hero-intro h1 .hero-line:nth-child(3) { animation-delay:290ms, 0ms; animation-name:hero-rise, hero-shine; animation-duration:760ms, 7s; animation-timing-function:var(--ease-out-expo), ease-in-out; animation-iteration-count:1, infinite; }
+  .hero-intro > :nth-child(3) { animation-delay:420ms; }
+  .hero-intro > :nth-child(4) { animation-delay:500ms; }
+  .hero-intro > :nth-child(5) { animation-delay:580ms; }
+  .hero-intro > :nth-child(6) { animation-delay:660ms; }
+  .hero-intro > :nth-child(n+7) { animation-delay:740ms; }
+}
+@keyframes hero-rise { from { transform:translateY(22px); clip-path:inset(-20% -10% 100% -10%); } to { transform:none; clip-path:inset(-20% -10% -20% -10%); } }
+/* The sweep crosses in the first ~1.5s of every 7s, then rests. */
+@keyframes hero-shine { 0% { background-position:150% 0, 0 0; } 22%, 100% { background-position:-60% 0, 0 0; } }
+
+/*
+  Card spotlight. spotlight.tsx writes the pointer into --mx/--my; a soft accent glow
+  follows it, and the card's edge lights nearest the cursor. Hover-capable devices only.
+*/
+.interactive-surface, .demo-card { --mx:50%; --my:-200px; }
+.demo-card { position:relative; }
+@media (hover:hover) and (pointer:fine) {
+  .interactive-surface::after, .demo-card::after {
+    content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; z-index:1;
+    opacity:0; transition:opacity .3s ease;
+    background:radial-gradient(420px circle at var(--mx) var(--my), color-mix(in oklab, var(--accent) 11%, transparent), transparent 60%);
+    box-shadow:inset 0 0 0 1px transparent;
+    -webkit-mask:none;
+  }
+  .interactive-surface:hover::after, .demo-card:hover::after { opacity:1; }
+  /* The lit edge: the same radial, painted only on the 1px border ring. */
+  .interactive-surface:hover, .demo-card:hover {
+    border-color:transparent;
+    background-image:
+      linear-gradient(var(--surface), var(--surface)),
+      radial-gradient(260px circle at var(--mx) var(--my), color-mix(in oklab, var(--accent) 75%, transparent), var(--border-strong) 70%);
+    background-origin:border-box; background-clip:padding-box, border-box;
+  }
+}
+
+/* Carousel controls (shadcn-style) over the scroll-snap track on /demos. */
+.carousel-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.carousel-btn {
+  display:grid; place-items:center; width:36px; height:36px; border-radius:999px;
+  border:1px solid var(--border-strong); background:var(--surface); color:var(--text);
+  transition:border-color var(--duration-micro), background-color var(--duration-micro), opacity var(--duration-micro);
+}
+.carousel-btn:hover:not(:disabled) { border-color:var(--control-border); background:var(--surface-2); }
+.carousel-btn:disabled { opacity:.4; cursor:default; }
+.carousel-btn:focus-visible { outline:2px solid var(--text); outline-offset:2px; }

@@ -1,3 +1,4 @@
+import { DecodeText } from "@/components/motion/decode-text";
 import { Reveal, StaggerItem } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 
@@ -26,11 +27,12 @@ export function SectionHeader({
         className,
       )}
     >
-      <div className="max-w-read">
+      {/* data-stagger: the eyebrow, the title and the description arrive one after another. */}
+      <div className="max-w-read" data-stagger>
         {eyebrow && (
           <StaggerItem>
             <p className="text-xs text-muted uppercase" data-readout>
-              {eyebrow}
+              <DecodeText text={eyebrow} />
             </p>
           </StaggerItem>
         )}

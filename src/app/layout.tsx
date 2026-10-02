@@ -9,6 +9,7 @@ import { fontVariables } from "@/lib/fonts";
 import { site } from "@/lib/site";
 import "./globals.css";
 import "./workbench.css";
+import { Spotlight } from "@/components/motion/spotlight";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -77,6 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             rather than the whole site reloading. Timings and the reduced-motion
             switch-off are in globals.css.
           */}
+          <Spotlight />
           <ViewTransition default="page">
             <main id="main">{children}</main>
           </ViewTransition>
