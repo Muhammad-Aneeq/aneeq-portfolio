@@ -365,7 +365,8 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
       invisible. A plain ease-out over entry 10% to cover 35% spreads the movement over
       roughly half a screen of scrolling, so the arrival is actually seen.
     */
-    :is([data-reveal], .portfolio-section-heading > div > *, .portfolio-section-heading > :not(div), .engineering-section > div:first-child, .home-contact) {
+    /* :where() so the default carries no specificity: every direction rule below wins. */
+    :where([data-reveal], .portfolio-section-heading > div > *, .portfolio-section-heading > :not(div), .engineering-section > div:first-child, .home-contact) {
       animation-name:reveal-rise; animation-duration:auto; animation-fill-mode:both;
       animation-timing-function:ease-out; animation-timeline:view(); animation-range:entry 10% cover 35%;
     }
@@ -400,12 +401,14 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
     */
     main h2:not(:is([data-reveal], .portfolio-section-heading, .engineering-section > div:first-child, .home-contact, .workbench, .rr) h2),
     .portfolio-section-heading > div > *,
-    [data-stagger] > [data-reveal]:has(> h2, > p[data-readout]) { animation-name:reveal-drop; }
+    [data-reveal]:has(> h2, > p[data-readout]),
+    .engineering-section > div:first-child { animation-name:reveal-drop; }
 
-    ul[data-stagger] > li[data-reveal] { animation-name:reveal-left; }
+    ul[data-stagger]:not(.demo-grid) > li[data-reveal] { animation-name:reveal-left; }
 
     @media (min-width:1024px) {
       :is(.grid.lg\:grid-cols-3, .demo-grid)[data-stagger] > [data-reveal]:nth-child(3n+1) { animation-name:reveal-left; }
+      :is(.grid.lg\:grid-cols-3, .demo-grid)[data-stagger] > [data-reveal]:nth-child(3n+2) { animation-name:reveal-rise; }
       :is(.grid.lg\:grid-cols-3, .demo-grid)[data-stagger] > [data-reveal]:nth-child(3n) { animation-name:reveal-right; }
     }
     :is(.work-case-studies, .grid.gap-3)[data-stagger] > [data-reveal]:nth-child(odd) { animation-name:reveal-left; }
