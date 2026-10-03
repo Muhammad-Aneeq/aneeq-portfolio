@@ -15,27 +15,23 @@ const FAQ = [
   },
   {
     q: "Where are you based, and which time zone do you work in?",
-    a: `${site.location}, on Pakistan Standard Time (UTC+5). I work remotely, building for teams everywhere.`,
+    a: `I am based in ${site.location} and work remotely, in any time zone: my hours follow the team I am working with.`,
   },
   {
-    q: "Have these systems run in production at a client?",
-    a: "Not these ones. The projects on this site are built and evaluated on synthetic data, and none is yet in production at a client; each case study says what its system cannot do. My production work is in my current role at Voya AI, where I design, build and operate production multi-agent systems.",
+    q: "What do you specialise in?",
+    a: "Agentic AI: designing, building, evaluating and operating multi-agent systems. That covers tool calling, retrieval, orchestration, context engineering and structured outputs, with evaluation pipelines, guardrails, human-in-the-loop controls and observability, so a system's behaviour is measured rather than assumed.",
   },
   {
-    q: "Why is all the project data synthetic?",
-    a: "Real books belong to real companies. Every project runs on generated companies, counterparties, invoices and bank transactions from a seeded data engine, so the numbers can be published and rerun. None of it corresponds to a real organisation, and nothing is ever posted to a real system.",
+    q: "What makes your background different?",
+    a: "I worked in accounting before I moved into software, reconciling bank feeds against the ledger and closing the month. So I know where a plausible answer becomes a costly mistake, and I design agents around how finance teams actually work, with a person signing off where it matters.",
   },
   {
     q: "Do you only work on finance?",
-    a: "No. Finance is my deepest domain because I worked in accounting before I automated it, and its constraints are the strictest. The same patterns (human gates at risk boundaries, grounding, evaluation that survives repetition) transfer, and each case study sets out where: claims, procurement approval, clinical decision support, moderation and legal review.",
+    a: "No. Finance is my deepest domain, and its constraints are the strictest, but what I build transfers to any work that runs on documents, approvals and decisions: human gates at the risk boundaries, answers grounded in evidence, and evaluation that survives repetition.",
   },
   {
     q: "What is your stack?",
     a: "Python with LangGraph, LangChain, the OpenAI Agents SDK and MCP for the agents; TypeScript, React and Node.js for the product around them; and evaluation pipelines, guardrails, human-in-the-loop controls and observability on every system.",
-  },
-  {
-    q: "Can I see the code?",
-    a: "Yes, wherever it is public: each project page links its repository, and the walkthroughs are recorded from the running systems, unedited.",
   },
   {
     q: "Do you also train teams?",

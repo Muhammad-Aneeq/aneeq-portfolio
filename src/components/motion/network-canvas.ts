@@ -8,7 +8,7 @@
  * draws one still frame.
  */
 
-export type NetworkColours = { node: string; line: string; pulse: string; strength: number };
+export type NetworkColours = { node: string; line: string; pulse: string; strength: number; lineBoost: number };
 
 type Node = { x: number; y: number; vx: number; vy: number; r: number };
 type Pulse = { a: number; b: number; t: number; speed: number };
@@ -83,7 +83,7 @@ export function startNetwork(canvas: HTMLCanvasElement, colours: () => NetworkCo
         if (d > LINK) continue;
         links.push([i, j]);
         const near = Math.max(0, 1 - Math.min(Math.hypot(pointer.x - a.x, pointer.y - a.y), Math.hypot(pointer.x - b.x, pointer.y - b.y)) / CURSOR);
-        ctx.globalAlpha = (1 - d / LINK) * (0.28 + near * 0.55) * c.strength;
+        ctx.globalAlpha = Math.min(1, (1 - d / LINK) * (0.28 + near * 0.55) * c.strength * c.lineBoost);
         ctx.strokeStyle = c.line;
         ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
       }
@@ -100,10 +100,10 @@ export function startNetwork(canvas: HTMLCanvasElement, colours: () => NetworkCo
       const a = nodes[p.a], b = nodes[p.b];
       if (p.t >= 1 || !a || !b || Math.hypot(a.x - b.x, a.y - b.y) > LINK * 1.2) { pulses.splice(k, 1); continue; }
       const x = a.x + (b.x - a.x) * p.t, y = a.y + (b.y - a.y) * p.t;
-      const g = ctx.createRadialGradient(x, y, 0, x, y, 9);
-      g.addColorStop(0, c.pulse); g.addColorStop(1, "transparent");
-      ctx.globalAlpha = 0.9 * c.strength;
-      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, 9, 0, Math.PI * 2); ctx.fill();
+      // A soft halo, then a crisp core, so it reads as a signal on both grounds.
+      ctx.fillStyle = c.pulse;
+      ctx.globalAlpha = 0.18 * c.strength; ctx.beginPath(); ctx.arc(x, y, 6, 0, Math.PI * 2); ctx.fill();
+      ctx.globalAlpha = 0.95 * c.strength; ctx.beginPath(); ctx.arc(x, y, 2.2, 0, Math.PI * 2); ctx.fill();
     }
 
     // Nodes, brighter near the cursor.

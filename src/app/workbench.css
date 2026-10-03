@@ -54,8 +54,10 @@
     radial-gradient(45% 65% at 88% 100%, var(--glow-teal), transparent 72%);
   /* Feathered at the sides: the glow is clipped to the content column while the band
      tint runs full width, and without the mask that column edge showed as a seam. */
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);
-  mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent); }
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent),linear-gradient(180deg,transparent,#000 18%,#000 82%,transparent);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent),linear-gradient(180deg,transparent,#000 18%,#000 82%,transparent);
+  mask-composite:intersect; }
 @media (max-width:900px) { .home-band { margin-top:48px; padding:52px 0 60px !important; } }
 /* The featured row: the one work section on the home page. */
 .home-demos { padding-top:84px; }
@@ -587,7 +589,7 @@ main { overflow-x:clip; }
 
 
 /* FAQ: native <details>, styled as a quiet list of cards. */
-.faq { margin-top:96px; }
+.faq { margin-top:96px; margin-bottom:112px; }
 .faq-list { display:grid; gap:10px; max-width:var(--container-wide); }
 .faq-item { border:1px solid var(--border); border-radius:14px; background:var(--surface); transition:border-color var(--duration-ui), background-color var(--duration-ui); }
 .faq-item:hover { border-color:var(--border-strong); }
@@ -601,7 +603,7 @@ main { overflow-x:clip; }
 .faq-icon::before, .faq-icon::after { content:""; position:absolute; left:50%; top:50%; width:11px; height:1.5px; margin:-.75px 0 0 -5.5px; background:var(--text); transition:transform var(--duration-ui) var(--ease-out-expo); }
 .faq-icon::after { transform:rotate(90deg); }
 .faq-item[open] .faq-icon::after { transform:rotate(0deg); }
-@media (max-width:640px) { .faq { margin-top:64px; } .faq-item summary { padding:16px; font-size:1rem; } .faq-item > p { padding:0 16px 18px; } }
+@media (max-width:640px) { .faq { margin-top:64px; margin-bottom:72px; } .faq-item summary { padding:16px; font-size:1rem; } .faq-item > p { padding:0 16px 18px; } }
 
 /* The answer slides open where the browser can animate to height:auto. */
 @media (prefers-reduced-motion:no-preference) {

@@ -28,7 +28,9 @@ export function Aurora() {
         node: s.getPropertyValue("--net-node").trim() || "#c9d4ff",
         line: s.getPropertyValue("--net-line").trim() || "#8fa6ff",
         pulse: s.getPropertyValue("--net-pulse").trim() || "#ffffff",
-        strength: light ? 0.75 : 1,
+        strength: 1,
+        // Thin lines vanish on white; they carry more weight in the light theme.
+        lineBoost: light ? 1.9 : 1,
       };
     };
     let colours = read();

@@ -40,8 +40,10 @@
   --shadow-lg:0 1px 2px rgb(24 40 80 / .04), 0 12px 28px rgb(24 40 80 / .07), 0 28px 60px rgb(24 40 80 / .05);
   --glow-a:rgb(51 80 207 / .07); --glow-b:rgb(51 80 207 / .03);
   --aurora-a:#3d5bd6; --aurora-b:#7a52e0;
-  --net-node:#3350cf; --net-line:#5b74e0; --net-pulse:#3350cf;
-  --glow-hero:rgb(51 80 207 / .1); --glow-band:rgb(51 80 207 / .12); --glow-teal:oklch(0.62 0.13 175 / .08);
+  --net-node:#2a44b8; --net-line:#3350cf; --net-pulse:#3350cf;
+  /* On white the accent lift reads as a stain: a much lighter touch than the dark theme. */
+  --surface-lift: color-mix(in oklab, var(--surface) 96%, var(--accent));
+  --glow-hero:rgb(51 80 207 / .1); --glow-band:rgb(51 80 207 / .08); --glow-teal:oklch(0.62 0.13 175 / .05);
   --edge:rgb(255 255 255 / .8);
   --preview-mat:#e2e7f0; --preview-mat-alt:#dce3f1;
   /*
