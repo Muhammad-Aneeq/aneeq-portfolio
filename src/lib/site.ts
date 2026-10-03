@@ -20,10 +20,11 @@ export const site = {
   tagline: "AI engineering: agents, retrieval, and evaluation",
   /**
    * The live address: canonical URLs, JSON-LD, sitemap, robots and llms.txt all build
-   * on it. The Vercel domain until a custom one is connected; then change it here.
+   * on it. The www host is canonical: Vercel redirects the apex (aneeqkhatri.com) to it
+   * with a 308, so this must match or every canonical would point at a redirect.
    * See SPEC §10.1.
    */
-  url: "https://aneeq-portfolio-lmud.vercel.app",
+  url: "https://www.aneeqkhatri.com",
   location: "Karachi, Pakistan",
   availability: "Open to fully remote roles worldwide",
   email: "aneeqabdulsamad5761@gmail.com",
