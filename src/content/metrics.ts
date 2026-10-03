@@ -62,7 +62,7 @@ export const METRICS = {
     id: "studies",
     value: String(caseStudies.length),
     label: "documented engineering case studies",
-    scope: "architecture, evaluation and limitations available to inspect",
+    scope: "architecture and evaluation available to inspect",
     // Plain /work. The `#case-studies` anchor it used to carry was the in-page marker
     // for the old two-section layout, and went away when that became a tab — /work now
     // *is* the case studies view, so the fragment pointed at nothing.

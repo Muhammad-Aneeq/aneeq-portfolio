@@ -30,13 +30,12 @@ export default function WorkIndexLayout({ children }: { children: ReactNode }) {
       <p className="mt-7 max-w-read text-lead text-muted">
         Governed multi-agent systems, proven where a wrong number costs the most. Every
         project gives the problem, the architecture, the decisions and their alternatives,
-        and the evaluation method with its numbers. Each one also says what it cannot do,
-        because that is the part that tells you whether to trust the rest.
+        and the evaluation method with its numbers.
       </p>
 
       <p className="mt-8 text-sm text-faint">
-        All project data is synthetic. Individual projects document their datasets and
-        limitations. Available walkthroughs are collected on{" "}
+        All project data is synthetic. Individual projects document their datasets.
+        Available walkthroughs are collected on{" "}
         <Link
           href="/demos"
           className="text-muted underline decoration-border underline-offset-4 transition-colors hover:text-text hover:decoration-text"

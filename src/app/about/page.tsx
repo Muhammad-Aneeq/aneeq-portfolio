@@ -94,7 +94,7 @@ export default function AboutPage() {
       </Stagger></section>
 
 
-      <section className="editorial-section"><h2 className="text-h2">How I work</h2><p className="leading-relaxed text-text">I use written specifications, evaluation suites, and browser checks to test engineering decisions. Each case study explains the alternatives, the evidence behind the choice, and the limitations that remain. Those details are part of the work, not something added after it.</p></section>
+      <section className="editorial-section"><h2 className="text-h2">How I work</h2><p className="leading-relaxed text-text">I use written specifications, evaluation suites, and browser checks to test engineering decisions. Each case study explains the alternatives and the evidence behind the choice. Those details are part of the work, not something added after it.</p></section>
 
       <section className="editorial-section"><h2 id="data" className="scroll-mt-24 text-h2">
         Why everything here is synthetic

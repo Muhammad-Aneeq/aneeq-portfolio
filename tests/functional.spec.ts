@@ -359,7 +359,8 @@ test.describe("functional", () => {
 
   test("a case study carries the sections SPEC 5.2 requires", async ({ page }) => {
     await page.goto("/work/closeops");
-    await expect(page.getByRole("heading", { name: /what this system cannot do/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "How it runs" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "How it was measured" })).toBeVisible();
     // ADR cards, eval numbers and the link cluster are the senior signals.
     await expect(page.getByText(/^alternative$/i).first()).toBeVisible();
     await expect(page.locator("[data-readout]").first()).toBeVisible();

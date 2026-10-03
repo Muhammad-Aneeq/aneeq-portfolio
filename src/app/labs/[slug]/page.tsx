@@ -81,9 +81,7 @@ export default async function LabPage({ params }: { params: Promise<{ slug: stri
 
       {/*
         `editorial-section` is the same two-column rhythm /about and /teaching use: the
-        heading sits in a narrow rail and the body runs beside it. The `<ul>` under the
-        limits heading is a direct sibling on purpose — it is both the second grid
-        column and what `#limits-title + ul` in tests/round2.spec.ts asserts on.
+        heading sits in a narrow rail and the body runs beside it.
       */}
       <section className="editorial-section">
         <h2 className="text-h2">What it does</h2>
@@ -97,17 +95,6 @@ export default async function LabPage({ params }: { params: Promise<{ slug: stri
 
       {/* InvoiceAudit's argument, told as you scroll: see the component. */}
       {lab.slug === "invoiceaudit" && <InvoiceSpecimen />}
-
-      {lab.limits.length > 0 && (
-        <section className="editorial-section" aria-labelledby="limits-title">
-          <h2 id="limits-title" className="text-h2">Limits and current status</h2>
-          <ul className="space-y-4 leading-relaxed text-muted">
-            {lab.limits.map((limit) => (
-              <li key={limit}>{limit}</li>
-            ))}
-          </ul>
-        </section>
-      )}
 
       {lab.shots.length > 0 && (
         <section className="editorial-section">

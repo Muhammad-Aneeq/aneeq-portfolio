@@ -7,7 +7,7 @@ import { links } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Work",
   description:
-    "Focused AI engineering projects and deeper case studies. Inspect the architectures, evaluation methods, repository evidence and explicit limitations of the systems I have built.",
+    "Focused AI engineering projects and deeper case studies. Inspect the architectures, evaluation methods and repository evidence of the systems I have built.",
 };
 
 /**

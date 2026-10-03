@@ -11,7 +11,6 @@ import { Walkthrough } from "@/components/media/walkthrough";
 import { Reveal } from "@/components/motion/reveal";
 import { TraceReplay } from "@/components/three/trace-replay/trace-replay";
 import { ADRCard } from "@/components/ui/adr-card";
-import { LimitsPanel } from "@/components/ui/limits-panel";
 import { StateLegend } from "@/components/ui/state-legend";
 import { LinkCluster } from "@/components/ui/link-cluster";
 import { TagChip, TagRow } from "@/components/ui/tag-chip";
@@ -303,13 +302,6 @@ export default async function CaseStudyPage({
             <ShotGallery shots={study.shots} breakout />
           </Section>
         )}
-
-        {/* 10 · Limits */}
-        <div className="mt-24">
-          <Reveal>
-            <LimitsPanel limits={study.limits} />
-          </Reveal>
-        </div>
 
         {/* 9 · Stack */}
         <Section eyebrow="stack" title="Built with">

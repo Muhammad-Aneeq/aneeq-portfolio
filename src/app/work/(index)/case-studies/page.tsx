@@ -7,7 +7,7 @@ import { caseStudies } from "@/content";
 export const metadata: Metadata = {
   title: "Case studies",
   description:
-    "The five projects written up in full: the problem, the architecture, the decisions and their alternatives, the evaluation method with its numbers, and what each system cannot do.",
+    "The five projects written up in full: the problem, the architecture, the decisions and their alternatives, and the evaluation method with its numbers.",
 };
 
 export default function WorkCaseStudiesPage() {

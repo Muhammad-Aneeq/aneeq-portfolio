@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { caseStudies, labs, projectCount } from "../src/content";
 
-test("project inventory is computed and all new work has limitations", async ({ page }) => {
+test("project inventory is computed and every new lab has its own page", async ({ page }) => {
   // 16 since ReportSmith shipped: it was held back while it had planning documents and
   // no code, and now has a backend, a frontend, evals and a recorded demo.
   expect(projectCount).toBe(16);
@@ -21,10 +21,8 @@ test("project inventory is computed and all new work has limitations", async ({ 
   }
   for (const slug of ["revledger", "invoiceaudit", "payment-reconciliation"]) {
     await page.goto(`/labs/${slug}`);
-    await expect(page.getByRole("heading", { name: "Limits and current status" })).toBeVisible();
-    await expect(page.locator("#limits-title + ul li")).not.toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "What it does" })).toBeVisible();
   }
-  await expect(page.locator("main")).toContainText("FakeLLMClient");
 });
 
 test("workbench playback is controllable and never announces automatic changes", async ({ page }) => {
@@ -131,7 +129,7 @@ test("LedgerLab preview shows a real capture, not an empty panel", async ({ page
 
 test.describe("new projects without scripting", () => {
   test.use({ javaScriptEnabled: false });
-  test("all projects and limitations survive without hydration", async ({ page }) => {
+  test("all projects survive without hydration", async ({ page }) => {
     await page.goto("/work");
     await expect(page.getByRole("heading", { name: /16 projects/ })).toBeVisible();
 
@@ -152,7 +150,7 @@ test.describe("new projects without scripting", () => {
     expect(linked).toHaveLength(11);
     for (const slug of ["revledger", "invoiceaudit", "payment-reconciliation"]) {
       await page.goto(`/labs/${slug}`);
-      await expect(page.locator("#limits-title")).toBeVisible();
+      await expect(page.getByRole("heading", { name: "What it does" })).toBeVisible();
     }
   });
 });

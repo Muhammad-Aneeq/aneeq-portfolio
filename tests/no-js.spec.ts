@@ -24,9 +24,9 @@ test.describe("no JavaScript", () => {
     await page.goto("/contact");
     await expect(page.getByRole("link", { name: /@/ }).first()).toBeVisible();
   });
-  test("a case study renders its limits section", async ({ page }) => {
+  test("a case study renders its evaluation section", async ({ page }) => {
     await page.goto("/work/closeops");
-    await expect(page.getByRole("heading", { name: /what this system cannot do/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "How it was measured" })).toBeVisible();
   });
   test("finance renders the reconciliation and explains its simulated approval", async ({ page }) => {
     await page.goto("/finance");
