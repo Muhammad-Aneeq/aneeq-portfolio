@@ -366,7 +366,7 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
       roughly half a screen of scrolling, so the arrival is actually seen.
     */
     /* :where() so the default carries no specificity: every direction rule below wins. */
-    :where([data-reveal], .portfolio-section-heading > div > *, .portfolio-section-heading > :not(div), .engineering-section > div:first-child, .home-contact) {
+    :where([data-reveal], .portfolio-section-heading > div > *, .portfolio-section-heading > :not(div), .engineering-section > div:first-child, .home-contact, .role-timeline > li, .faq-item) {
       animation-name:reveal-rise; animation-duration:auto; animation-fill-mode:both;
       animation-timing-function:ease-out; animation-timeline:view(); animation-range:entry 10% cover 35%;
     }
@@ -467,7 +467,7 @@ input:not([type=hidden]), textarea { border-color:var(--control-border); }
 @keyframes nav-depth { from { box-shadow:none; } to { box-shadow:var(--shadow-md); } }
 @keyframes hero-drift { from { transform:none; } to { transform:translate3d(-3%,2%,0) scale(1.09); } }
 @media (prefers-reduced-motion:reduce) {
-  .workbench, .portfolio-hero::before, .home-contact::before, .contact-panel::before, .site-navigation, [data-reveal], .portfolio-section-heading > div > *, .portfolio-section-heading > :not(div), .engineering-section > div:first-child, .home-contact, main h2, .hero-intro > *, .hero-line, figure > .raised-surface, .trace-spine, .trace-dot, .trace-step::before, .demand-step::before { animation:none; animation-timeline:none; transform:none; clip-path:none; }
+  .workbench, .portfolio-hero::before, .home-contact::before, .contact-panel::before, .site-navigation, [data-reveal], .portfolio-section-heading > div > *, .portfolio-section-heading > :not(div), .engineering-section > div:first-child, .home-contact, main h2, .hero-intro > *, .hero-line, figure > .raised-surface, main h1, main :has(+ h1), main h1 + *, .role-timeline > li, .faq-item, .trace-spine, .trace-dot, .trace-step::before, .demand-step::before { animation:none; animation-timeline:none; transform:none; clip-path:none; }
   .interactive-surface:hover, .portfolio-button:active, .site-contact:active { transform:none; }
 }
 
@@ -539,6 +539,11 @@ main { overflow-x:clip; }
   .hero-intro > :nth-child(5) { animation-delay:580ms; }
   .hero-intro > :nth-child(6) { animation-delay:660ms; }
   .hero-intro > :nth-child(n+7) { animation-delay:740ms; }
+
+  /* Every other page's header opens the same way: label, then title, then the line under it. */
+  main :is(p, div):has(+ h1:not(#hero-title)) { animation:hero-rise 760ms var(--ease-out-expo) 0ms both; }
+  main h1:not(#hero-title) { animation:hero-rise 760ms var(--ease-out-expo) 90ms both; }
+  main h1:not(#hero-title) + :is(p, div) { animation:hero-rise 760ms var(--ease-out-expo) 190ms both; }
 }
 @keyframes hero-rise { from { transform:translateY(22px); clip-path:inset(-20% -10% 100% -10%); } to { transform:none; clip-path:inset(-20% -10% -20% -10%); } }
 /* The sweep crosses in the first ~1.5s of every 7s, then rests. */
@@ -579,3 +584,30 @@ main { overflow-x:clip; }
 .carousel-btn:hover:not(:disabled) { border-color:var(--control-border); background:var(--surface-2); }
 .carousel-btn:disabled { opacity:.4; cursor:default; }
 .carousel-btn:focus-visible { outline:2px solid var(--text); outline-offset:2px; }
+
+
+/* FAQ: native <details>, styled as a quiet list of cards. */
+.faq { margin-top:96px; }
+.faq-list { display:grid; gap:10px; max-width:var(--container-wide); }
+.faq-item { border:1px solid var(--border); border-radius:14px; background:var(--surface); transition:border-color var(--duration-ui), background-color var(--duration-ui); }
+.faq-item:hover { border-color:var(--border-strong); }
+.faq-item[open] { border-color:var(--border-strong); background-image:linear-gradient(180deg,var(--surface-lift),transparent 60%); }
+.faq-item summary { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:18px 22px; cursor:pointer; list-style:none; font-size:1.0625rem; font-weight:600; color:var(--text); }
+.faq-item summary::-webkit-details-marker { display:none; }
+.faq-item summary:focus-visible { outline:2px solid var(--text); outline-offset:-2px; border-radius:14px; }
+.faq-item > p { margin:0; padding:0 22px 20px; max-width:var(--container-read); line-height:1.7; color:var(--muted); }
+/* A plus that turns into a minus. */
+.faq-icon { position:relative; flex:none; width:28px; height:28px; border-radius:999px; border:1px solid var(--border-strong); }
+.faq-icon::before, .faq-icon::after { content:""; position:absolute; left:50%; top:50%; width:11px; height:1.5px; margin:-.75px 0 0 -5.5px; background:var(--text); transition:transform var(--duration-ui) var(--ease-out-expo); }
+.faq-icon::after { transform:rotate(90deg); }
+.faq-item[open] .faq-icon::after { transform:rotate(0deg); }
+@media (max-width:640px) { .faq { margin-top:64px; } .faq-item summary { padding:16px; font-size:1rem; } .faq-item > p { padding:0 16px 18px; } }
+
+/* The answer slides open where the browser can animate to height:auto. */
+@media (prefers-reduced-motion:no-preference) {
+  @supports (interpolate-size:allow-keywords) {
+    .faq-item { interpolate-size:allow-keywords; }
+    .faq-item::details-content { height:0; overflow:clip; transition:height .35s var(--ease-out-expo), content-visibility .35s allow-discrete; }
+    .faq-item[open]::details-content { height:auto; }
+  }
+}
